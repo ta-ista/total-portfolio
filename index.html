@@ -63,13 +63,35 @@
       font-weight: bold;
       margin-bottom: 5px;
     }
-    .folder-content {
-      margin-left: 20px;
-      display: none; /* Hidden by default */
+    .notepad-window {
+      position: absolute;
+      width: 400px;
+      height: 300px;
+      background-color: #FFFFFF;
+      border: 2px solid #000;
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      overflow: auto;
+      z-index: 1000;
+      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
     }
-    #app1, #app2 {
-      display: none; /* Hide Webamp players initially */
-      margin-top: 20px;
+    .notepad-header {
+      background-color: #2e2e2e;
+      color: #fff;
+      padding: 5px;
+      cursor: move;
+    }
+    .notepad-content {
+      padding: 10px;
+      white-space: pre-wrap;
+    }
+    .close-btn {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -82,21 +104,21 @@
       <div class="panel-header">Projekty</div>
       <div class="panel-content">
         <!-- Folder 1 -->
-        <div class="folder" onclick="toggleFolder('folder1')">📁 [Hozier cover remix]</div>
-        <div id="folder1" class="folder-content">
+        <div class="folder" onclick="openNotepad('A remix project inspired by Hozier’s music, combining piano and modern beats.')">📁 [Hozier cover remix]</div>
+        <div class="folder-content">
           <a href="#" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Projekt 1')">Projekt 1.mp3</a>
         </div>
 
         <!-- Folder 2 -->
-        <div class="folder" onclick="toggleFolder('folder2')">📁 [School project]</div>
-        <div id="folder2" class="folder-content">
+        <div class="folder" onclick="openNotepad('A school project exploring audio transformations from “Before” to “After.”')">📁 [School project]</div>
+        <div class="folder-content">
           <a href="#" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Before')">Before.mp3</a><br>
           <a href="#" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_upravene.mp3', 'After')">After.mp3</a>
         </div>
 
         <!-- Folder 3 -->
-        <div class="folder" onclick="toggleFolder('folder3')">📁 [Tlixer jingel]</div>
-        <div id="folder3" class="folder-content">
+        <div class="folder" onclick="openNotepad('A jingle created for the Tlixer project, blending dynamic melodies and catchy tunes.')">📁 [Tlixer jingel]</div>
+        <div class="folder-content">
           <a href="#" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Projekt 1')">Projekt 1.mp3</a>
         </div>
       </div>
@@ -122,15 +144,6 @@
 <script>
   let currentWebamp1 = null;
   let currentWebamp2 = null;
-
-  function toggleFolder(folderId) {
-    const folder = document.getElementById(folderId);
-    if (folder.style.display === "none" || folder.style.display === "") {
-      folder.style.display = "block"; // Show folder content
-    } else {
-      folder.style.display = "none"; // Hide folder content
-    }
-  }
 
   function openWebamp(url, title) {
     const app1 = document.getElementById("app1");
@@ -159,6 +172,51 @@
 
     currentWebamp1.renderWhenReady(app1);
     app2.style.display = "none"; // Hide second player if not needed
+  }
+
+  function openNotepad(content) {
+    const notepad = document.createElement('div');
+    notepad.className = 'notepad-window';
+    notepad.innerHTML = `
+      <div class="notepad-header">
+        Notepad
+        <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
+      </div>
+      <div class="notepad-content">${content}</div>
+    `;
+    document.body.appendChild(notepad);
+
+    // Make draggable
+    dragElement(notepad);
+  }
+
+  function dragElement(element) {
+    const header = element.querySelector('.notepad-header');
+    let offsetX = 0, offsetY = 0, mouseX = 0, mouseY = 0;
+
+    header.onmousedown = function(e) {
+      e.preventDefault();
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      document.onmouseup = closeDragElement;
+      document.onmousemove = dragMouseMove;
+    };
+
+    function dragMouseMove(e) {
+      e.preventDefault();
+      offsetX = mouseX - e.clientX;
+      offsetY = mouseY - e.clientY;
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      element.style.top = (element.offsetTop - offsetY) + "px";
+      element.style.left = (element.offsetLeft - offsetX) + "px";
+    }
+
+    function closeDragElement() {
+      document.onmouseup = null;
+      document.onmousemove = null;
+    }
   }
 </script>
 </body>
