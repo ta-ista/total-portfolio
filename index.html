@@ -85,20 +85,20 @@
   </div>
 
   <script src="https://unpkg.com/webamp"></script>
-  <script>
-    function openWebamp(url, title) {
-      Webamp.create({
-        initialTracks: [
-          {
-            url: url,
-            metaData: {
-              title: title,
-              artist: "Ja",
-            },
-          },
-        ],
-      }).renderWhenReady(document.body);
-    }
-  </script>
+<script>
+  // Create a basic Webamp player
+  Webamp.create({
+    initialTracks: [
+      {
+        url: "https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano%20plain.mp3",
+        metaData: {
+          title: "Piano Plain",
+          artist: "Your Name",
+        },
+      },
+    ],
+  }).renderWhenReady(document.body);
+</script>
+
 </body>
 </html>
