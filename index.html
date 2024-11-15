@@ -103,6 +103,10 @@
       cursor: pointer;
       font-weight: bold;
     }
+    #app1, #app2 {
+      display: none; /* Hide Webamp players initially */
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -116,20 +120,94 @@
         <!-- Folder 1 -->
         <div class="folder" onclick="toggleFolder('folder1')">📁 [Hozier cover remix]</div>
         <div id="folder1" class="folder-content">
-          <a href="#">Projekt 1.mp3</a>
+          <a href="javascript:void(0);" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Projekt 1')">Projekt 1.mp3</a>
           <a href="javascript:void(0);" onclick="openNotepad('A remix project inspired by Hozier’s music, combining piano and modern beats.')">README.txt</a>
         </div>
 
         <!-- Folder 2 -->
         <div class="folder" onclick="toggleFolder('folder2')">📁 [School project]</div>
         <div id="folder2" class="folder-content">
-          <a href="#">Before.mp3</a>
-          <a href="#">After.mp3</a>
+          <a href="javascript:void(0);" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Before')">Before.mp3</a>
+          <a href="javascript:void(0);" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_upravene.mp3', 'After')">After.mp3</a>
           <a href="javascript:void(0);" onclick="openNotepad('A school project exploring audio transformations from “Before” to “After.”')">README.txt</a>
         </div>
 
         <!-- Folder 3 -->
         <div class="folder" onclick="toggleFolder('folder3')">📁 [Tlixer jingel]</div>
         <div id="folder3" class="folder-content">
-          <a href="#">Projekt 1.mp3</a>
-          <a href="javascript:void(0);" onclick="openNotepad('A jingle creat
+          <a href="javascript:void(0);" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Projekt 1')">Projekt 1.mp3</a>
+          <a href="javascript:void(0);" onclick="openNotepad('A jingle created for the Tlixer project, blending dynamic melodies and catchy tunes.')">README.txt</a>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header">Iné súbory</div>
+      <div class="panel-content">
+        <p>README.txt</p>
+        <p>kontakt.html</p>
+        <p>archív.zip</p>
+      </div>
+    </div>
+  </div>
+  <div class="status-bar">
+    Stav: 3 priečinky zobrazené
+  </div>
+
+  <!-- Two Webamp players -->
+  <div id="app1"></div>
+  <div id="app2"></div>
+
+<script src="https://unpkg.com/webamp"></script>
+<script>
+  let currentWebamp1 = null;
+  let currentWebamp2 = null;
+
+  function toggleFolder(folderId) {
+    const folder = document.getElementById(folderId);
+    folder.style.display = (folder.style.display === "block") ? "none" : "block";
+  }
+
+  function openWebamp(url, title) {
+    const app1 = document.getElementById("app1");
+    const app2 = document.getElementById("app2");
+
+    // Reset Webamp players if opening a single file
+    if (currentWebamp1) currentWebamp1.dispose();
+    if (currentWebamp2) currentWebamp2.dispose();
+    currentWebamp1 = currentWebamp2 = null;
+
+    // Show the Webamp player
+    app1.style.display = "block";
+
+    // Play the file
+    currentWebamp1 = new Webamp({
+      initialTracks: [
+        {
+          url: url,
+          metaData: {
+            title: title,
+            artist: "Your Name",
+          },
+        },
+      ],
+    });
+
+    currentWebamp1.renderWhenReady(app1);
+    app2.style.display = "none"; // Hide second player if not needed
+  }
+
+  function openNotepad(content) {
+    const notepad = document.createElement('div');
+    notepad.className = 'notepad-window';
+    notepad.innerHTML = `
+      <div class="notepad-header">
+        Notepad
+        <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
+      </div>
+      <div class="notepad-content">${content}</div>
+    `;
+    document.body.appendChild(notepad);
+  }
+</script>
+</body>
+</html>
