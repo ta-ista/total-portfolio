@@ -56,6 +56,10 @@
     a:hover {
       text-decoration: underline;
     }
+    #app {
+      display: none; /* Hide the Webamp player initially */
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -66,7 +70,7 @@
     <div class="panel">
       <div class="panel-header">Projekty</div>
       <div class="panel-content">
-        <a href="#" onclick="openWebamp('https://github.com/ta-ista/total-portfolio/raw/refs/heads/main/piano_plain.mp3', 'pokusne ci funguje')">fungujes ci ne</a><br>
+        <a href="#" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Projekt 1')">Projekt 1.mp3</a><br>
         <a href="#" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_upravene.mp3', 'Projekt 2')">Projekt 2.mp3</a><br>
         <a href="#" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/projekt3.mp3', 'Projekt 3')">Projekt 3.mp3</a>
       </div>
@@ -87,9 +91,27 @@
   <div id="app"></div>
 <script src="https://unpkg.com/webamp"></script>
 <script>
-    const app = document.getElementById("app")
-    const webamp = new Webamp();
+  function openWebamp(url, title) {
+    // Make the Webamp player visible
+    const app = document.getElementById("app");
+    app.style.display = "block";
+
+    // Create a new Webamp instance
+    const webamp = new Webamp({
+      initialTracks: [
+        {
+          url: url,
+          metaData: {
+            title: title,
+            artist: "Your Name",
+          },
+        },
+      ],
+    });
+
+    // Render the Webamp player
     webamp.renderWhenReady(app);
+  }
 </script>
 </body>
 </html>
