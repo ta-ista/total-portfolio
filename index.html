@@ -20,17 +20,15 @@
     }
     .main {
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: calc(100vh - 50px);
-      background-color: transparent;
+      height: calc(100vh - 50px);
     }
     .panel {
       flex: 1;
       border: 1px solid #555;
-      margin: 10px;
-      padding: 10px;
-      background-color: #FFFFFF; /* Panels are white */
+      margin: 5px;
+      display: flex;
+      flex-direction: column;
+      background-color: #FFFFFF;
     }
     .panel-header {
       background-color: #2e2e2e;
@@ -66,7 +64,11 @@
     }
     .folder-content {
       margin-left: 20px;
-      display: none;
+      display: none; /* Hide content initially */
+    }
+    #app1, #app2 {
+      display: none; /* Hide Webamp players initially */
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -77,45 +79,4 @@
   <div class="main">
     <div class="panel">
       <div class="panel-header">Projekty</div>
-      <div class="panel-content">
-        <!-- Folder 1 -->
-        <div class="folder" onclick="toggleFolder('folder1')">📁 Folder 1</div>
-        <div id="folder1" class="folder-content">
-          <a href="#" onclick="openWebamp('https://example.com/file1.mp3', 'File 1')">File 1</a>
-        </div>
-
-        <!-- Folder 2 -->
-        <div class="folder" onclick="toggleFolder('folder2')">📁 Folder 2</div>
-        <div id="folder2" class="folder-content">
-          <a href="#" onclick="openWebamp('https://example.com/file2.mp3', 'File 2')">File 2</a>
-          <a href="#" onclick="openWebamp('https://example.com/file3.mp3', 'File 3')">File 3</a>
-        </div>
-      </div>
-    </div>
-    <div class="panel">
-      <div class="panel-header">Other Files</div>
-      <div class="panel-content">
-        <p>README.txt</p>
-        <p>kontakt.html</p>
-        <p>archiv.zip</p>
-      </div>
-    </div>
-  </div>
-  <div class="status-bar">
-    Status: 2 folders displayed
-  </div>
-
-<script src="https://unpkg.com/webamp"></script>
-<script>
-  function toggleFolder(folderId) {
-    const folder = document.getElementById(folderId);
-    folder.style.display = folder.style.display === "none" ? "block" : "none";
-  }
-
-  function openWebamp(url, title) {
-    alert(`Playing: ${title}`);
-    // Add your Webamp player logic here
-  }
-</script>
-</body>
-</html>
+      <div class="panel-co
