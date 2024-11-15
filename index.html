@@ -56,8 +56,13 @@
     a:hover {
       text-decoration: underline;
     }
-    #app {
-      display: none; /* Hide the Webamp player initially */
+    .folder {
+      cursor: pointer;
+      color: #4ca3dd;
+      font-weight: bold;
+    }
+    #app1, #app2 {
+      display: none; /* Hide Webamp players initially */
       margin-top: 20px;
     }
   </style>
@@ -70,9 +75,18 @@
     <div class="panel">
       <div class="panel-header">Projekty</div>
       <div class="panel-content">
-        <a href="#" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Projekt 1')">Projekt 1.mp3</a><br>
-        <a href="#" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_upravene.mp3', 'Projekt 2')">Projekt 2.mp3</a><br>
-        <a href="#" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/projekt3.mp3', 'Projekt 3')">Projekt 3.mp3</a>
+        <!-- Folder 1: One file -->
+        <div class="folder" onclick="openFolder('Folder 1', [{ url: 'https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', title: 'Projekt 1' }])">
+          Folder 1 (1 file)
+        </div>
+
+        <!-- Folder 2: Two files -->
+        <div class="folder" onclick="openFolder('Folder 2', [
+          { url: 'https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', title: 'Before' },
+          { url: 'https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_upravene.mp3', title: 'After' }
+        ])">
+          Folder 2 (2 files)
+        </div>
       </div>
     </div>
     <div class="panel">
@@ -85,32 +99,50 @@
     </div>
   </div>
   <div class="status-bar">
-    Stav: 3 súbory zobrazené
+    Stav: 2 priečinky zobrazené
   </div>
 
-  <div id="app"></div>
+  <!-- Two Webamp players -->
+  <div id="app1"></div>
+  <div id="app2"></div>
+
 <script src="https://unpkg.com/webamp"></script>
 <script>
-  function openWebamp(url, title) {
-    // Make the Webamp player visible
-    const app = document.getElementById("app");
-    app.style.display = "block";
+  let currentWebamp1 = null;
+  let currentWebamp2 = null;
 
-    // Create a new Webamp instance
-    const webamp = new Webamp({
-      initialTracks: [
-        {
-          url: url,
-          metaData: {
-            title: title,
-            artist: "Your Name",
-          },
-        },
-      ],
-    });
+  function openFolder(folderName, files) {
+    const app1 = document.getElementById("app1");
+    const app2 = document.getElementById("app2");
 
-    // Render the Webamp player
-    webamp.renderWhenReady(app);
+    // Reset both Webamp players
+    if (currentWebamp1) currentWebamp1.dispose();
+    if (currentWebamp2) currentWebamp2.dispose();
+    currentWebamp1 = currentWebamp2 = null;
+
+    // Show players
+    app1.style.display = "block";
+
+    if (files.length === 1) {
+      // One file: Replace all players
+      currentWebamp1 = new Webamp({
+        initialTracks: [files[0]],
+      });
+      currentWebamp1.renderWhenReady(app1);
+      app2.style.display = "none"; // Hide second player
+    } else if (files.length === 2) {
+      // Two files: Play both players
+      currentWebamp1 = new Webamp({
+        initialTracks: [files[0]],
+      });
+      currentWebamp2 = new Webamp({
+        initialTracks: [files[1]],
+      });
+
+      currentWebamp1.renderWhenReady(app1);
+      app2.style.display = "block";
+      currentWebamp2.renderWhenReady(app2);
+    }
   }
 </script>
 </body>
