@@ -163,8 +163,13 @@
   let currentWebamp2 = null;
 
   function toggleFolder(folderId) {
+    console.log("Toggling folder:", folderId); // Debugging line to check function call
     const folder = document.getElementById(folderId);
-    folder.style.display = (folder.style.display === "block") ? "none" : "block";
+    if (folder) {
+      folder.style.display = (folder.style.display === "block") ? "none" : "block";
+    } else {
+      console.error("Folder not found:", folderId);
+    }
   }
 
   function openWebamp(url, title) {
@@ -185,8 +190,8 @@
         {
           url: url,
           metaData: {
-            title: Kristinas portfolio,
-            artist: "Various",
+            title: title,
+            artist: "Kristinas portfolio",
           },
         },
       ],
