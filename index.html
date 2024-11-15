@@ -60,7 +60,7 @@
 </head>
 <body>
   <div class="header">
-    Total funfu Portfolio: ta_ista
+    Total Portfolio: ta_ista
   </div>
   <div class="main">
     <div class="panel">
@@ -84,21 +84,12 @@
     Stav: 3 súbory zobrazené
   </div>
 
-  <script src="https://unpkg.com/webamp"></script>
-  <script>
-    function openWebamp(url, title) {
-      Webamp.create({
-        initialTracks: [
-          {
-            url: url,
-            metaData: {
-              title: title,
-              artist: "Your Name",
-            },
-          },
-        ],
-      }).renderWhenReady(document.body);
-    }
-  </script>
+  <div id="app"></div>
+<script src="https://unpkg.com/webamp"></script>
+<script>
+    const app = document.getElementById("app")
+    const webamp = new Webamp();
+    webamp.renderWhenReady(app);
+</script>
 </body>
 </html>
