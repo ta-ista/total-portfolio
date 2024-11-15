@@ -60,15 +60,15 @@
 </head>
 <body>
   <div class="header">
-    Total portfolio: ta_ista
+    Total Portfolio: ta_ista
   </div>
   <div class="main">
     <div class="panel">
       <div class="panel-header">Projekty</div>
       <div class="panel-content">
-        <a href="#" onclick="openWebamp()">Projekt 1.mp3</a><br>
-        <a href="#" onclick="openWebamp()">Projekt 2.mp3</a><br>
-        <a href="#" onclick="openWebamp()">Projekt 3.mp3</a>
+        <a href="#" onclick="openWebamp('https://your-username.github.io/your-repository-name/projekt1.mp3', 'Projekt 1')">Projekt 1.mp3</a><br>
+        <a href="#" onclick="openWebamp('https://your-username.github.io/your-repository-name/projekt2.mp3', 'Projekt 2')">Projekt 2.mp3</a><br>
+        <a href="#" onclick="openWebamp('https://your-username.github.io/your-repository-name/projekt3.mp3', 'Projekt 3')">Projekt 3.mp3</a>
       </div>
     </div>
     <div class="panel">
@@ -86,13 +86,13 @@
 
   <script src="https://unpkg.com/webamp"></script>
   <script>
-    function openWebamp() {
+    function openWebamp(url, title) {
       Webamp.create({
         initialTracks: [
           {
-            url: "https://example.com/moj-projekt1.mp3",
+            url: url,
             metaData: {
-              title: "Projekt 1",
+              title: title,
               artist: "Ja",
             },
           },
