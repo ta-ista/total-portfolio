@@ -54,8 +54,8 @@
     a {
       color: #000000;
       text-decoration: none;
-      display: block; /* Ensures each link appears on a new line */
-      margin-bottom: 5px; /* Adds spacing between items */
+      display: block;
+      margin-bottom: 5px;
     }
     a:hover {
       text-decoration: underline;
@@ -117,7 +117,7 @@
         <div class="folder" onclick="toggleFolder('folder1')">📁 [Hozier cover remix]</div>
         <div id="folder1" class="folder-content">
           <a href="#">Projekt 1.mp3</a>
-          <a href="#" onclick="openNotepad('A remix project inspired by Hozier’s music, combining piano and modern beats.')">README.txt</a>
+          <a href="javascript:void(0);" onclick="openNotepad('A remix project inspired by Hozier’s music, combining piano and modern beats.')">README.txt</a>
         </div>
 
         <!-- Folder 2 -->
@@ -125,48 +125,11 @@
         <div id="folder2" class="folder-content">
           <a href="#">Before.mp3</a>
           <a href="#">After.mp3</a>
-          <a href="#" onclick="openNotepad('A school project exploring audio transformations from “Before” to “After.”')">README.txt</a>
+          <a href="javascript:void(0);" onclick="openNotepad('A school project exploring audio transformations from “Before” to “After.”')">README.txt</a>
         </div>
 
         <!-- Folder 3 -->
         <div class="folder" onclick="toggleFolder('folder3')">📁 [Tlixer jingel]</div>
         <div id="folder3" class="folder-content">
           <a href="#">Projekt 1.mp3</a>
-          <a href="#" onclick="openNotepad('A jingle created for the Tlixer project, blending dynamic melodies and catchy tunes.')">README.txt</a>
-        </div>
-      </div>
-    </div>
-    <div class="panel">
-      <div class="panel-header">Iné súbory</div>
-      <div class="panel-content">
-        <p>README.txt</p>
-        <p>kontakt.html</p>
-        <p>archív.zip</p>
-      </div>
-    </div>
-  </div>
-  <div class="status-bar">
-    Stav: 3 priečinky zobrazené
-  </div>
-
-<script>
-  function toggleFolder(folderId) {
-    const folder = document.getElementById(folderId);
-    folder.style.display = (folder.style.display === "block") ? "none" : "block";
-  }
-
-  function openNotepad(content) {
-    const notepad = document.createElement('div');
-    notepad.className = 'notepad-window';
-    notepad.innerHTML = `
-      <div class="notepad-header">
-        Notepad
-        <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
-      </div>
-      <div class="notepad-content">${content}</div>
-    `;
-    document.body.appendChild(notepad);
-  }
-</script>
-</body>
-</html>
+          <a href="javascript:void(0);" onclick="openNotepad('A jingle creat
