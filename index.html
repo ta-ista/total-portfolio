@@ -63,6 +63,10 @@
       font-weight: bold;
       margin-bottom: 5px;
     }
+    .folder-content {
+      margin-left: 20px;
+      display: none; /* Folders start closed */
+    }
     .notepad-window {
       position: absolute;
       width: 400px;
@@ -101,123 +105,4 @@
   </div>
   <div class="main">
     <div class="panel">
-      <div class="panel-header">Projekty</div>
-      <div class="panel-content">
-        <!-- Folder 1 -->
-        <div class="folder" onclick="openNotepad('A remix project inspired by Hozier’s music, combining piano and modern beats.')">📁 [Hozier cover remix]</div>
-        <div class="folder-content">
-          <a href="#" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Projekt 1')">Projekt 1.mp3</a>
-        </div>
-
-        <!-- Folder 2 -->
-        <div class="folder" onclick="openNotepad('A school project exploring audio transformations from “Before” to “After.”')">📁 [School project]</div>
-        <div class="folder-content">
-          <a href="#" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Before')">Before.mp3</a><br>
-          <a href="#" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_upravene.mp3', 'After')">After.mp3</a>
-        </div>
-
-        <!-- Folder 3 -->
-        <div class="folder" onclick="openNotepad('A jingle created for the Tlixer project, blending dynamic melodies and catchy tunes.')">📁 [Tlixer jingel]</div>
-        <div class="folder-content">
-          <a href="#" onclick="openWebamp('https://github.com/ta-ista/total-portfolio/blob/f2c23f63c805ffcc0cf24fd72d9c43690a21f763/tlixer_jingel.wav', 'Projekt 3')">Jingel_final.mp3</a>
-        </div>
-      </div>
-    </div>
-    <div class="panel">
-      <div class="panel-header">Iné súbory</div>
-      <div class="panel-content">
-        <p>README.txt</p>
-        <p>kontakt.html</p>
-        <p>archív.zip</p>
-      </div>
-    </div>
-  </div>
-  <div class="status-bar">
-    Stav: 2 priečinky zobrazené
-  </div>
-
-  <!-- Two Webamp players -->
-  <div id="app1"></div>
-  <div id="app2"></div>
-
-<script src="https://unpkg.com/webamp"></script>
-<script>
-  let currentWebamp1 = null;
-  let currentWebamp2 = null;
-
-  function openWebamp(url, title) {
-    const app1 = document.getElementById("app1");
-    const app2 = document.getElementById("app2");
-
-    // Reset Webamp players if opening a single file
-    if (currentWebamp1) currentWebamp1.dispose();
-    if (currentWebamp2) currentWebamp2.dispose();
-    currentWebamp1 = currentWebamp2 = null;
-
-    // Show the Webamp player
-    app1.style.display = "block";
-
-    // Play the file
-    currentWebamp1 = new Webamp({
-      initialTracks: [
-        {
-          url: url,
-          metaData: {
-            title: title,
-            artist: "Your Name",
-          },
-        },
-      ],
-    });
-
-    currentWebamp1.renderWhenReady(app1);
-    app2.style.display = "none"; // Hide second player if not needed
-  }
-
-  function openNotepad(content) {
-    const notepad = document.createElement('div');
-    notepad.className = 'notepad-window';
-    notepad.innerHTML = `
-      <div class="notepad-header">
-        Notepad
-        <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
-      </div>
-      <div class="notepad-content">${content}</div>
-    `;
-    document.body.appendChild(notepad);
-
-    // Make draggable
-    dragElement(notepad);
-  }
-
-  function dragElement(element) {
-    const header = element.querySelector('.notepad-header');
-    let offsetX = 0, offsetY = 0, mouseX = 0, mouseY = 0;
-
-    header.onmousedown = function(e) {
-      e.preventDefault();
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      document.onmouseup = closeDragElement;
-      document.onmousemove = dragMouseMove;
-    };
-
-    function dragMouseMove(e) {
-      e.preventDefault();
-      offsetX = mouseX - e.clientX;
-      offsetY = mouseY - e.clientY;
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-
-      element.style.top = (element.offsetTop - offsetY) + "px";
-      element.style.left = (element.offsetLeft - offsetX) + "px";
-    }
-
-    function closeDragElement() {
-      document.onmouseup = null;
-      document.onmousemove = null;
-    }
-  }
-</script>
-</body>
-</html>
+      <div clas
