@@ -45,20 +45,37 @@
       font-size: 14px;
       color: #000;    
     }
-    .snake-panel {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #000;
-      margin: 5px;
-      border: 2px solid #555;
-      width: 60px; /* Veľkosť ikony */
-      height: 60px;
-      cursor: pointer;
-    }
-    .snake-icon {
-      font-size: 24px; /* Veľkosť symbolu */
-      color: #FFF;
+    .snake-window {
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 2px solid #000;
+    font-family: Consolas, monospace;
+    font-size: 12px;
+    overflow: hidden;
+    z-index: 1000;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  .snake-header {
+    background-color: #2e2e2e;
+    color: #fff;
+    padding: 5px;
+    font-size: 14px;
+    text-align: center;
+    position: relative;
+  }
+  .snake-header .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #fff;
+  }
     }
     .status-bar {
       background-color: #2e2e2e;
@@ -186,7 +203,8 @@
     <div class="panel">
       <div class="panel-header">Other files</div>
       <div class="panel-content">
-      </a>
+      </a>  
+        <a href="javascript:void(0);" onclick="openSnakeWindow()">🐍 snake.exe</a>
           <a href="javascript:void(0);" onclick="openNotepad('Tu bude o mne popisane aka som uzasna')">
             📄 README.txt
           </a>
@@ -262,39 +280,16 @@
 </script>
   
   <script>
-function openSnake() {
-  const snakeGameWindow = window.open("", "Snake", "width=400,height=400");
-
-  // Kontrola, či okno bolo úspešne otvorené
-  if (!snakeGameWindow) {
-    alert("Unable to open game. Please allow pop-ups in your browser.");
-    return;
-  }
-
-  // HTML pre novú stránku s hrou
-  const snakeHTML = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <title>Snake Game</title>
-      <style>
-        body {
-          margin: 0;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          background-color: #000;
-          color: #fff;
-        }
-        canvas {
-          background-color: #111;
-          display: block;
-        }
-      </style>
-    </head>
-    <body>
-      <canvas id="snakeCanvas" width="300" height="300"></canvas>
+<script>
+  function openSnakeWindow() {
+    const snakeWindow = document.createElement('div');
+    snakeWindow.className = 'snake-window';
+    snakeWindow.innerHTML = `
+      <div class="snake-header">
+        Snake Game
+        <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
+      </div>
+      <canvas id="snakeCanvas" width="300" height="300" style="margin: 10px auto; display: block;"></canvas>
       <script>
         const canvas = document.getElementById('snakeCanvas');
         const ctx = canvas.getContext('2d');
@@ -349,12 +344,10 @@ function openSnake() {
           }
         }
         const game = setInterval(draw, 100);
-
-  // Vloženie HTML do otvoreného okna
-  snakeGameWindow.document.open();
-  snakeGameWindow.document.write(snakeHTML);
-  snakeGameWindow.document.close();
-}
+      </script>
+    `;
+    document.body.appendChild(snakeWindow);
+  }
 </script>
 
 </body>
