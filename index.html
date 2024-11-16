@@ -116,7 +116,7 @@
       display: inline-block;
       width: 16px; /* Nastavte veľkosť ikony */
       height: 16px;
-      background-image: url('https://github.com/ta-ista/total-portfolio/blob/cf6f05c2cc59c0a95d3218a223d139b4fdc7c87a/winamp_icon.png'); /* Cesta k vašej ikone */
+      background-image: url('winamp-icon.png'); /* Cesta k vašej ikone */
       background-size: contain; /* Zabezpečí správne zobrazenie ikony */
       vertical-align: middle; /* Zarovná ikonu so súborom */
       margin-right: 5px; /* Odstup medzi ikonou a názvom súboru */
@@ -148,6 +148,17 @@
           <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Before')">Before.mp3</a>
           <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_upravene.mp3', 'After')">After.mp3</a>
           <a href="javascript:void(0);" onclick="openNotepad('A school project exploring audio transformations from “Before” to “After.”')">README.txt</a>
+        </div>
+
+        <!-- Folder 3 -->
+        <div class="folder" onclick="toggleFolder('folder3')">📁 [Tlixer jingel]</div>
+        <div id="folder3" class="folder-content">
+          <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/tlixer_jingel.wav', 'Tlixer Jingle')">
+            Tlixer_final.mp3
+          </a>
+          <a href="javascript:void(0);" onclick="openNotepad('A jingle created for the Tlixer project, blending dynamic melodies and catchy tunes.')">
+            README.txt
+          </a>
         </div>
       </div>
     </div>
