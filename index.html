@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="sk">
 <head>
@@ -45,19 +44,43 @@
       font-size: 14px;
       color: #000;    
     }
-    .status-bar {
-      background-color: #2e2e2e;
-      padding: 5px;
-      text-align: right;
-      font-size: 12px;
-      color: #fff;
-    }
-    a {
-      color: #000000;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 5px;
-    }
+    .snake-window {
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 2px solid #000;
+    font-family: Consolas, monospace;
+    font-size: 12px;
+    overflow: hidden;
+    z-index: 1000;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  .snake-header {
+    background-color: #2e2e2e;
+    color: #fff;
+    padding: 5px;
+    font-size: 14px;
+    text-align: center;
+    position: relative;
+  }
+  .snake-header .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #fff;
+  }
+a {
+  color: #000000;
+  text-decoration: none;
+  display: block; /* Zabezpečí, že každý odkaz je blokový element */
+  margin-bottom: 5px; /* Vytvorí medzeru medzi súbormi */
+}
     a:hover {
       text-decoration: underline;
     }
@@ -121,37 +144,15 @@
       background-size: contain; /* Zabezpečí správne zobrazenie ikony */
       vertical-align: middle; /* Zarovná ikonu so súborom */
       margin-right: 5px; /* Odstup medzi ikonou a názvom súboru */
-}
-    .snake-window {
-    position: fixed;
-    width: 400px;
-    height: 400px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    border: 2px solid #000;
-    font-family: Consolas, monospace;
-    font-size: 12px;
-    overflow: hidden;
-    z-index: 1000;
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
-  }
-  .snake-header {
-    background-color: #2e2e2e;
-    color: #fff;
-    padding: 5px;
-    font-size: 14px;
-    text-align: center;
-    position: relative;
-  }
-  .snake-header .close-btn {
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    color: #fff;
+    }
+     }
+    .status-bar {
+  background-color: #000000; /* Nastaví čierne pozadie */
+  padding: 5px;
+  text-align: right; /* Zarovná text doprava */
+  font-size: 12px;
+  color: #FFFFFF; /* Nastaví bielu farbu textu */
+  border-top: 1px solid #555; /* (Voliteľné) Pridá vrchný okraj, aby status bar bol oddelený */
     }
   </style>
 </head>
@@ -166,7 +167,7 @@
         <!-- Folder 1 -->
         <div class="folder" onclick="toggleFolder('folder1')">📁 [Hozier cover remix]</div>
         <div id="folder1" class="folder-content">
-          <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/hozier_rmx_final.mp3', 'Hozier Remix')">
+          <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/hozier_rmx final.mp3', 'Hozier Remix')">
             Hozier_rmx_final.mp3
           </a>
           <a href="javascript:void(0);" onclick="openNotepad('A remix project inspired by Hozier’s music, combining piano and modern beats.')">
@@ -195,14 +196,10 @@
       </div>
     </div>
     
-    <div class="snake-panel" onclick="openSnake()">
-      <span class="snake-icon">🐍</span>
-    </div>
-    
     <div class="panel">
       <div class="panel-header">Other files</div>
       <div class="panel-content">
-      </a>
+      </a>  
         <a href="javascript:void(0);" onclick="openSnakeWindow()">🐍 snake.exe</a>
           <a href="javascript:void(0);" onclick="openNotepad('Tu bude o mne popisane aka som uzasna')">
             📄 README.txt
@@ -267,18 +264,19 @@
   function openNotepad(content) {
     const notepad = document.createElement('div');
     notepad.className = 'notepad-window';
-    notepad.innerHTML = `
+    notepad.innerHTML = 
       <div class="notepad-header">
         Notepad
         <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
       </div>
       <div class="notepad-content">${content}</div>
-    `;
+    ;
     document.body.appendChild(notepad);
   }
 </script>
+  
   <script>
- function openSnakeWindow() {
+function openSnakeWindow() {
   // Vytvorenie "okna" pre hru Snake
   const snakeWindow = document.createElement('div');
   snakeWindow.className = 'snake-window';
