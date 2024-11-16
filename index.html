@@ -29,21 +29,22 @@
     }
 
    .main {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between; /* Priestor medzi panelmi */
-    align-items: stretch; /* Panely natiahnuté na celú výšku */
-    height: calc(100vh - 80px); /* 50px hlavička + 30px status bar */
+    display: flex; /* Nastaví flexibilný kontajner */
+    justify-content: space-between; /* Rovnomerný priestor medzi panelmi */
+    align-items: stretch; /* Panely sa natiahnu na rovnakú výšku */
+    height: calc(100vh - 80px); /* Celková výška obrazovky mínus hlavička a status bar */
+    padding: 0 10px; /* Pridá odsadenie od okrajov */
+    gap: 10px; /* Pridá medzeru medzi panely */
 }
 
 .panel {
-    flex: 0 0 48%; /* Fixná šírka 48% */
-    margin: 1%; /* Medzera medzi panelmi */
+    flex: 1; /* Panely budú rovnako široké */
+    min-width: 0; /* Zabráni pretekaniu obsahu */
     border: 1px solid #555;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Obsah sa rozloží vertikálne */
     background-color: #C0C0C0;
-    height: 100%; /* Panely natiahnuté na výšku */
+    overflow: hidden; /* Zabráni pretekaniu obsahu */
 }
 
     .panel-header {
