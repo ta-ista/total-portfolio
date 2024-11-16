@@ -297,14 +297,14 @@
       Snake Game
       <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
     </div>
-    <canvas id="snakeCanvas" width="300" height="300" style="margin: 10px auto; display: block;"></canvas>
+  <canvas id="snakeCanvas" width="200" height="200" style="margin: 10px auto; display: block; background-color: #000;"></canvas>
   `;
   document.body.appendChild(snakeWindow);
 
   const canvas = snakeWindow.querySelector('#snakeCanvas');
   const ctx = canvas.getContext('2d');
   const box = 10;
-  let snake = [{ x: 15 * box, y: 15 * box }];
+  let snake = [{ x: 5 * box, y: 5 * box }];
   let food = {
     x: Math.floor(Math.random() * (canvas.width / box)) * box,
     y: Math.floor(Math.random() * (canvas.height / box)) * box,
