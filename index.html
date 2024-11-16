@@ -45,21 +45,6 @@
       font-size: 14px;
       color: #000;    
     }
-    .snake-panel {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #000;
-      margin: 5px;
-      border: 2px solid #555;
-      width: 60px; /* Veľkosť ikony */
-      height: 60px;
-      cursor: pointer;
-    }
-    .snake-icon {
-      font-size: 24px; /* Veľkosť symbolu */
-      color: #FFF;
-    }
     .status-bar {
       background-color: #2e2e2e;
       padding: 5px;
@@ -136,6 +121,37 @@
       background-size: contain; /* Zabezpečí správne zobrazenie ikony */
       vertical-align: middle; /* Zarovná ikonu so súborom */
       margin-right: 5px; /* Odstup medzi ikonou a názvom súboru */
+}
+      .snake-window {
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 2px solid #000;
+    font-family: Consolas, monospace;
+    font-size: 12px;
+    overflow: hidden;
+    z-index: 1000;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  .snake-header {
+    background-color: #2e2e2e;
+    color: #fff;
+    padding: 5px;
+    font-size: 14px;
+    text-align: center;
+    position: relative;
+  }
+  .snake-header .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #fff;
     }
   </style>
 </head>
@@ -261,89 +277,83 @@
   }
 </script>
   <script>
-  // Funkcia na otvorenie hry Snake v novom okne
-  function openSnake() {
-    const snakeGameWindow = window.open("", "Snake", "width=400,height=400");
-    snakeGameWindow.document.write(`
-      <html>
-      <head>
-        <title>Snake Game</title>
-        <style>
-          body {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #000;
-            color: #fff;
-          }
-          canvas {
-            background-color: #111;
-            display: block;
-          }
-        </style>
-      </head>
-      <body>
-        <canvas id="snakeCanvas" width="300" height="300"></canvas>
-        <script>
-          const canvas = document.getElementById('snakeCanvas');
-          const ctx = canvas.getContext('2d');
-          const box = 10;
-          let snake = [{ x: 15 * box, y: 15 * box }];
-          let food = {
-            x: Math.floor(Math.random() * 30) * box,
-            y: Math.floor(Math.random() * 30) * box,
-          };
-          let direction = 'RIGHT';
-          document.addEventListener('keydown', event => {
-            if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
-            if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
-            if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
-            if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
-          });
+ function openSnakeWindow() {
+  const snakeWindow = document.createElement('div');
+  snakeWindow.className = 'snake-window';
+  snakeWindow.innerHTML = `
+    <div class="snake-header">
+      Snake Game
+      <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
+    </div>
+    <canvas id="snakeCanvas" width="300" height="300" style="margin: 10px auto; display: block;"></canvas>
+  `;
+  document.body.appendChild(snakeWindow);
 
-          function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < snake.length; i++) {
-              ctx.fillStyle = i === 0 ? '#fff' : '#0f0';
-              ctx.fillRect(snake[i].x, snake[i].y, box, box);
-            }
-            ctx.fillStyle = '#f00';
-            ctx.fillRect(food.x, food.y, box, box);
-            let snakeX = snake[0].x;
-            let snakeY = snake[0].y;
-            if (direction === 'UP') snakeY -= box;
-            if (direction === 'DOWN') snakeY += box;
-            if (direction === 'LEFT') snakeX -= box;
-            if (direction === 'RIGHT') snakeX += box;
-            if (snakeX === food.x && snakeY === food.y) {
-              food = {
-                x: Math.floor(Math.random() * (canvas.width / box)) * box,
-                y: Math.floor(Math.random() * (canvas.height / box)) * box,
-              };
-            } else {
-              snake.pop();
-            }
-            let newHead = { x: snakeX, y: snakeY };
-            snake.unshift(newHead);
-            if (
-              snakeX < 0 ||
-              snakeY < 0 ||
-              snakeX >= canvas.width ||
-              snakeY >= canvas.height ||
-              snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
-            ) {
-              clearInterval(game);
-              alert('Game Over');
-            }
-          }
-          const game = setInterval(draw, 100);
+  // Inicializácia hry Snake
+  const canvas = snakeWindow.querySelector('#snakeCanvas');
+  const ctx = canvas.getContext('2d');
+  const box = 10;
+  let snake = [{ x: 15 * box, y: 15 * box }];
+  let food = {
+    x: Math.floor(Math.random() * (canvas.width / box)) * box,
+    y: Math.floor(Math.random() * (canvas.height / box)) * box,
+  };
+  let direction = 'RIGHT';
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
+    if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
+    if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
+    if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < snake.length; i++) {
+      ctx.fillStyle = i === 0 ? '#fff' : '#0f0';
+      ctx.fillRect(snake[i].x, snake[i].y, box, box);
+    }
+    ctx.fillStyle = '#f00';
+    ctx.fillRect(food.x, food.y, box, box);
+
+    let snakeX = snake[0].x;
+    let snakeY = snake[0].y;
+
+    if (direction === 'UP') snakeY -= box;
+    if (direction === 'DOWN') snakeY += box;
+    if (direction === 'LEFT') snakeX -= box;
+    if (direction === 'RIGHT') snakeX += box;
+
+    if (snakeX === food.x && snakeY === food.y) {
+      food = {
+        x: Math.floor(Math.random() * (canvas.width / box)) * box,
+        y: Math.floor(Math.random() * (canvas.height / box)) * box,
+      };
+    } else {
+      snake.pop();
+    }
+
+    let newHead = { x: snakeX, y: snakeY };
+    snake.unshift(newHead);
+
+    if (
+      snakeX < 0 ||
+      snakeY < 0 ||
+      snakeX >= canvas.width ||
+      snakeY >= canvas.height ||
+      snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
+    ) {
+      clearInterval(game);
+      alert('Game Over');
+    }
+  }
+
+  const game = setInterval(draw, 100);
+}
         </script>
       </body>
       </html>
-    `);
-  }
+   
 </script>
 </body>
 </html>
