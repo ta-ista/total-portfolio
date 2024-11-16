@@ -243,74 +243,92 @@
       document.body.appendChild(notepad);
     }
 
-    function openSnakeWindow() {
-      const snakeWindow = document.createElement('div');
-      snakeWindow.className = 'snake-window';
-      snakeWindow.innerHTML = `
-        <div class="snake-header">
-          Snake Game
-          <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
-        </div>
-        <canvas id="snakeCanvas" width="300" height="300"></canvas>
-      `;
-      document.body.appendChild(snakeWindow);
+   function openSnakeWindow() {
+  // Vytvorenie okna pre hru Snake
+  const snakeWindow = document.createElement('div');
+  snakeWindow.className = 'snake-window';
+  snakeWindow.innerHTML = `
+    <div class="snake-header">
+      Snake Game
+      <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
+    </div>
+    <canvas id="snakeCanvas" width="200" height="200" style="display: block; margin: 10px auto; background-color: #000;"></canvas>
+  `;
+  document.body.appendChild(snakeWindow);
 
-      const canvas = document.getElementById('snakeCanvas');
-      const ctx = canvas.getContext('2d');
-      const box = 10;
-      let snake = [{ x: 15 * box, y: 15 * box }];
-      let food = {
+  // Inicializácia hry Snake
+  const canvas = snakeWindow.querySelector('#snakeCanvas');
+  const ctx = canvas.getContext('2d');
+  const box = 10; // Veľkosť jedného štvorčeka
+  let snake = [{ x: 10 * box, y: 10 * box }]; // Začiatok hada
+  let food = {
+    x: Math.floor(Math.random() * (canvas.width / box)) * box,
+    y: Math.floor(Math.random() * (canvas.height / box)) * box,
+  };
+  let direction = 'RIGHT';
+  let gameInterval;
+
+  // Funkcia na zmenu smeru hada
+  document.addEventListener('keydown', event => {
+    if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
+    if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
+    if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
+    if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Nakreslenie hada
+    for (let i = 0; i < snake.length; i++) {
+      ctx.fillStyle = i === 0 ? '#fff' : '#0f0';
+      ctx.fillRect(snake[i].x, snake[i].y, box, box);
+    }
+    // Nakreslenie jedla
+    ctx.fillStyle = '#f00';
+    ctx.fillRect(food.x, food.y, box, box);
+
+    let snakeX = snake[0].x;
+    let snakeY = snake[0].y;
+
+    // Aktualizácia smeru pohybu
+    if (direction === 'UP') snakeY -= box;
+    if (direction === 'DOWN') snakeY += box;
+    if (direction === 'LEFT') snakeX -= box;
+    if (direction === 'RIGHT') snakeX += box;
+
+    // Ak had narazí na jedlo
+    if (snakeX === food.x && snakeY === food.y) {
+      food = {
         x: Math.floor(Math.random() * (canvas.width / box)) * box,
         y: Math.floor(Math.random() * (canvas.height / box)) * box,
       };
-      let direction = 'RIGHT';
-
-      document.addEventListener('keydown', event => {
-        if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
-        if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
-        if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
-        if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
-      });
-
-      function draw() {
-        ctx.fillStyle = '#000';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        snake.forEach((part, index) => {
-          ctx.fillStyle = index === 0 ? '#fff' : '#0f0';
-          ctx.fillRect(part.x, part.y, box, box);
-        });
-        ctx.fillStyle = '#f00';
-        ctx.fillRect(food.x, food.y, box, box);
-
-        const headX = snake[0].x + (direction === 'RIGHT' ? box : direction === 'LEFT' ? -box : 0);
-        const headY = snake[0].y + (direction === 'DOWN' ? box : direction === 'UP' ? -box : 0);
-
-        if (headX === food.x && headY === food.y) {
-          food = {
-            x: Math.floor(Math.random() * (canvas.width / box)) * box,
-            y: Math.floor(Math.random() * (canvas.height / box)) * box,
-          };
-        } else {
-          snake.pop();
-        }
-
-        const newHead = { x: headX, y: headY };
-        snake.unshift(newHead);
-
-        if (
-          headX < 0 ||
-          headY < 0 ||
-          headX >= canvas.width ||
-          headY >= canvas.height ||
-          snake.slice(1).some(part => part.x === headX && part.y === headY)
-        ) {
-          alert('Game Over');
-          clearInterval(game);
-        }
-      }
-
-      const game = setInterval(draw, 100);
+    } else {
+      // Odstránenie poslednej časti hada
+      snake.pop();
     }
+
+    let newHead = { x: snakeX, y: snakeY };
+
+    // Kontrola kolízie s hranicami alebo so sebou samým
+    if (
+      snakeX < 0 ||
+      snakeY < 0 ||
+      snakeX >= canvas.width ||
+      snakeY >= canvas.height ||
+      snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
+    ) {
+      clearInterval(gameInterval);
+      alert('Game Over');
+      return;
+    }
+
+    // Pridanie novej hlavy hada
+    snake.unshift(newHead);
+  }
+
+  // Spustenie hry
+  gameInterval = setInterval(draw, 100);
+}
   </script>
 </body>
 </html>
