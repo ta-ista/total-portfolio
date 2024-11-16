@@ -136,6 +136,37 @@
       background-size: contain; /* Zabezpečí správne zobrazenie ikony */
       vertical-align: middle; /* Zarovná ikonu so súborom */
       margin-right: 5px; /* Odstup medzi ikonou a názvom súboru */
+      }
+      .snake-window {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      border: 2px solid #000;
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      overflow: hidden;
+      z-index: 1000;
+      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    .snake-header {
+      background-color: #2e2e2e;
+      color: #fff;
+      padding: 5px;
+      font-size: 14px;
+      text-align: center;
+      position: relative;
+    }
+    .snake-header .close-btn {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #fff;
     }
   </style>
 </head>
@@ -179,14 +210,11 @@
       </div>
     </div>
     
-    <div class="snake-panel" onclick="openSnake()">
-      <span class="snake-icon">🐍</span>
-    </div>
-    
     <div class="panel">
       <div class="panel-header">Other files</div>
       <div class="panel-content">
       </a>
+         <a href="javascript:void(0);" onclick="openSnakeWindow()">🐍 snake.exe</a>
           <a href="javascript:void(0);" onclick="openNotepad('Tu bude o mne popisane aka som uzasna')">
             📄 README.txt
           </a>
