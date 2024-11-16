@@ -23,6 +23,8 @@
       display: flex;
       flex-wrap: nowrap;
       height: calc(100vh - 50px);
+      flex-direction: row; /* Panely vedľa seba */
+      align-items: flex-start;
     }
     .panel {
       flex: 1 1 50%; /* Každý panel zaberie polovicu šírky */
@@ -197,7 +199,9 @@
           <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_upravene.mp3', 'After')">After.mp3</a>
         <a href="javascript:void(0);" 
    onclick="openNotepad('A school project that was recorded during a lesson about microphones. There were 4 groups that tried different miking techniques, even the "incorrect" ones. You can compare my "Before" - raw audio how it was recorded - and the "After," which I cut, adjusted panning, volume, and EQ-ed a little.')"> 
-   📄 README.txt</a>
+   📄 README.txt
+        </a>
+      </div>
 
         <!-- Folder 3 -->
         <div class="folder" onclick="toggleFolder('folder3')">📁 [Tlixer jingel]</div>
@@ -292,6 +296,7 @@
 </script>
   <script>
   function openSnakeWindow() {
+    }
   const snakeWindow = document.createElement('div');
   snakeWindow.className = 'snake-window';
   snakeWindow.innerHTML = `
@@ -307,7 +312,6 @@
   const ctx = canvas.getContext('2d');
   const box = 10;
   let snake = [{ x: 5 * box, y: 5 * box }];
-  let food = {
     let food = {
   x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
   y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
