@@ -28,21 +28,23 @@
     }
 
    .main {
-    display: flex;
-    flex-wrap: nowrap;
+    display: flex; /* Flexbox pre horizontálne usporiadanie */
+    flex-wrap: nowrap; /* Zabraňuje zalamovaniu */
     justify-content: space-between; /* Priestor medzi panelmi */
     align-items: stretch; /* Panely natiahnuté na celú výšku */
     height: calc(100vh - 80px); /* 50px hlavička + 30px status bar */
+    gap: 10px; /* Medzera medzi panelmi */
 }
 
 .panel {
-    flex: 0 0 48%; /* Fixná šírka 48% */
-    margin: 1%; /* Medzera medzi panelmi */
+    flex: 1; /* Rovnaká šírka pre oba panely */
+    min-width: 0; /* Zabraňuje pretečeniu obsahu */
     border: 1px solid #555;
     display: flex;
-    flex-direction: column;
-    background-color: #C0C0C0;
-    height: 100%; /* Panely natiahnuté na výšku */
+    flex-direction: column; /* Vertikálne usporiadanie obsahu v paneli */
+    background-color: #C0C0C0; /* Svetlošedé pozadie */
+    height: 100%; /* Výška panela zodpovedá rodičovi */
+    overflow: hidden; /* Skryje pretekajúci obsah */
 }
 
     .panel-header {
