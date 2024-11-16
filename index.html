@@ -242,44 +242,23 @@
       textArea.focus();
     }
 
-<!-- Two Webamp players -->
-  <div id="app1"></div>
-  <div id="app2"></div>
+    function openWebamp(url, title) {
+      if (window.webampInstance) {
+        window.webampInstance.dispose();
+      }
 
-<script src="https://unpkg.com/webamp"></script>
-<script>
-  let currentWebamp1 = null;
-  let currentWebamp2 = null;
-
-function openWebamp(url, title) {
-    const app1 = document.getElementById("app1");
-    const app2 = document.getElementById("app2");
-
-    // Reset Webamp players if opening a single file
-    if (currentWebamp1) currentWebamp1.dispose();
-    if (currentWebamp2) currentWebamp2.dispose();
-    currentWebamp1 = currentWebamp2 = null;
-
-    // Show the Webamp player
-    app1.style.display = "block";
-
-    // Play the file
-    currentWebamp1 = new Webamp({
-      initialTracks: [
-        {
-          url: url,
-          metaData: {
-            title: title,
-            artist: "Kristina's portfolio",
+      const webampContainer = document.getElementById('webamp-container');
+      window.webampInstance = new Webamp({
+        initialTracks: [
+          {
+            url: url,
+            metaData: { title },
           },
-        },
-      ],
-    });
+        ],
+      });
 
-    currentWebamp1.renderWhenReady(app1);
-    app2.style.display = "none"; // Hide second player if not needed
-  }
-
+      window.webampInstance.renderWhenReady(webampContainer);
+    }
 
     function openSnake() {
       const snakeWindow = document.createElement('div');
