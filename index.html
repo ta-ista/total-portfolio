@@ -42,7 +42,20 @@
       overflow-y: auto;
       padding: 10px;
       font-size: 14px;
-      color: #000;    
+      color: #000;
+    }
+    .folder {
+      cursor: pointer;
+      color: #000000;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .folder:hover {
+      text-decoration: underline;
+    }
+    .folder-content {
+      margin-left: 20px;
+      display: none; /* Skryté priečinky na začiatku */
     }
     .status-bar {
       background-color: #2e2e2e;
@@ -60,40 +73,6 @@
     a:hover {
       text-decoration: underline;
     }
-    .notepad-window {
-      position: fixed;
-      width: 400px;
-      height: 300px;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #FFFFFF;
-      border: 2px solid #000;
-      font-family: Consolas, monospace;
-      font-size: 12px;
-      overflow: hidden;
-      z-index: 1000;
-      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
-    }
-    .notepad-header {
-      background-color: #2e2e2e;
-      color: #fff;
-      padding: 5px;
-      font-size: 14px;
-    }
-    .close-btn {
-      position: absolute;
-      top: 5px;
-      right: 10px;
-      color: #fff;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    canvas {
-      background-color: #111;
-      display: block;
-      margin: 10px auto;
-    }
   </style>
 </head>
 <body>
@@ -104,12 +83,14 @@
     <div class="panel">
       <div class="panel-header">Projekty</div>
       <div class="panel-content">
+        <!-- Folder 1 -->
         <div class="folder" onclick="toggleFolder('folder1')">📁 [Hozier cover remix]</div>
         <div id="folder1" class="folder-content">
           <a href="javascript:void(0);" onclick="openWebamp('hozier_rmx_final.mp3', 'Hozier Remix')">Hozier_rmx_final.mp3</a>
           <a href="javascript:void(0);" onclick="openNotepad('A remix project inspired by Hozier’s music, combining piano and modern beats.')">📄 README.txt</a>
         </div>
 
+        <!-- Folder 2 -->
         <div class="folder" onclick="toggleFolder('folder2')">📁 [School project]</div>
         <div id="folder2" class="folder-content">
           <a href="javascript:void(0);" onclick="openWebamp('piano_plain.mp3', 'Before')">Before.mp3</a>
@@ -117,6 +98,7 @@
           <a href="javascript:void(0);" onclick="openNotepad('A school project exploring audio transformations from “Before” to “After.”')">📄 README.txt</a>
         </div>
 
+        <!-- Folder 3 -->
         <div class="folder" onclick="toggleFolder('folder3')">📁 [Tlixer jingel]</div>
         <div id="folder3" class="folder-content">
           <a href="javascript:void(0);" onclick="openWebamp('tlixer_jingel.wav', 'Tlixer Jingle')">Tlixer_final.mp3</a>
@@ -144,7 +126,7 @@
 <script>
   function toggleFolder(folderId) {
     const folder = document.getElementById(folderId);
-    folder.style.display = (folder.style.display === "block") ? "none" : "block";
+    folder.style.display = folder.style.display === 'block' ? 'none' : 'block';
   }
 
   function openNotepad(content) {
