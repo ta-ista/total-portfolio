@@ -2,291 +2,311 @@
 <html lang="sk">
 <head>
   <meta charset="UTF-8">
-  <title>Total Portfolio</title>
+  <title>Total portfolio:: ta_ista</title>
   <style>
     body, html {
-        height: 100%; /* Zabezpečí, že celé telo zaberá výšku obrazovky */
-        margin: 0;
-        padding: 0;
-        font-family: Consolas, monospace;
-    }
-
-    body {
-      background-color: #E0E0E0;
-      color: #000000;
-      height: 100%; /* Zaručí výšku celej obrazovky */
+      height: 100%;
       margin: 0;
       padding: 0;
+      font-family: Consolas, monospace;
+      background-color: #E0E0E0; /* Bledosivá */
     }
 
     .header {
-        background-color: #000080;
-        padding: 10px;
-        text-align: center;
-        font-size: 18px;
-        color: #fff;
+      background-color: #000080; /* Tmavomodrý pás hore */
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      font-size: 18px;
     }
 
-   .main {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between; /* Priestor medzi panelmi */
-    align-items: stretch; /* Panely natiahnuté na celú výšku */
-    height: calc(100vh - 80px); /* 50px hlavička + 30px status bar */
-}
+    .main {
+      display: flex;
+      height: calc(100vh - 50px - 30px); /* Výška bez headeru a status baru */
+    }
 
-.panel {
-    flex: 0 0 48%; /* Fixná šírka 48% */
-    margin: 1%; /* Medzera medzi panelmi */
-    border: 1px solid #555;
-    display: flex;
-    flex-direction: column;
-    background-color: #C0C0C0;
-    height: 100%; /* Panely natiahnuté na výšku */
-}
+    .panel {
+      flex: 1;
+      margin: 10px;
+      background-color: #C0C0C0; /* Tmavosivá */
+      color: #fff;
+      border: 1px solid #555;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
 
     .panel-header {
-        background-color: #C0C0FF;
-        padding: 5px;
-        font-size: 14px;
-        color: #000000;
-        border-bottom: 1px solid #555;
+      background-color: #444;
+      padding: 5px;
+      text-align: center;
+      font-weight: bold;
     }
 
     .panel-content {
-        flex: 1;
-        overflow-y: auto;
-        padding: 8px;
-        font-size: 14px;
-        color: #000;
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+    }
+
+    .folder {
+      cursor: pointer;
+      color: #00ccff;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .folder-content {
+      display: none;
+      margin-left: 20px;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .notepad-window {
+      position: fixed;
+      width: 400px;
+      height: 300px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      color: #000;
+      border: 2px solid #000;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .notepad-header {
+      background-color: #444;
+      color: #fff;
+      padding: 5px;
+      cursor: move;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .notepad-content {
+      flex: 1;
+      padding: 10px;
+      overflow: auto;
+      white-space: pre-wrap;
+      resize: none;
+      border: none;
+      font-family: Consolas, monospace;
+      font-size: 14px;
+    }
+
+    .close-btn {
+      cursor: pointer;
+      color: #fff;
+      font-weight: bold;
+    }
+.snake-window {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      border: 2px solid #000;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .snake-header {
+      background-color: #444;
+      color: #fff;
+      padding: 5px;
+      font-weight: bold;
+      text-align: center;
+      position: relative;
+    }
+
+    .snake-header .close-btn {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      cursor: pointer;
     }
 
     .status-bar {
-        background-color: #2e2e2e;
-        color: white;
-        text-align: center;
-        padding: 10px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #000;
+      color: #fff;
+      text-align: right;
+      padding: 5px;
+      font-size: 12px;
+      box-sizing: border-box;
     }
   </style>
+  <script src="https://unpkg.com/webamp"></script>
 </head>
 <body>
-  <div class="header">Header</div>
+  <div class="header">Total Commander Style</div>
   <div class="main">
-    <div class="panel">Panel 1</div>
-    <div class="panel">Panel 2</div>
-  </div>
-  <div class="status-bar">Status Bar</div>
-</body>
-</html>
-</head>
-<body>
-  <div class="header">
-    Total Portfolio: ta_ista
-  </div>
-  <div class="main">
+    <!-- Ľavý panel -->
     <div class="panel">
-      <div class="panel-header">Projekty</div>
+      <div class="panel-header">Projects</div>
       <div class="panel-content">
-        
-        <!-- Folder 1 -->
         <div class="folder" onclick="toggleFolder('folder1')">📁 [Hozier cover remix]</div>
         <div id="folder1" class="folder-content">
-          <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/hozier_rmx final.mp3', 'Hozier Remix')">
-            Hozier_rmx_final.mp3
-          </a>
-          <a href="javascript:void(0);" onclick="openNotepad('A remix project from cover song made by Audiohaze youtube channel. My first remix ever.')">
-            📄 README.txt
-          </a>
+          <a href="javascript:void(0);" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/hozier_rmx final.mp3', 'Hozier Remix')">Hozier_rmx final.mp3</a>
+          <a href="javascript:void(0);" onclick="openNotepad('A remix project from cover song made by Audiohaze youtube channel. My first remix ever!')">📄 README.txt</a>
         </div>
 
-       <!-- Folder 2 -->
-<div class="folder" onclick="toggleFolder('folder2')">📁 [School project]</div>
-<div id="folder2" class="folder-content">
-    <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Before')">Before.mp3</a>
-    <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_upravene.mp3', 'After')">After.mp3</a>
-    <a href="javascript:void(0);" onclick="openNotepad(projectDescription)">📄 README.txt</a>
-</div>
+        <div class="folder" onclick="toggleFolder('folder2')">📁 [School project]</div>
+        <div id="folder2" class="folder-content">
+          <a href="javascript:void(0);" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Before')">Piano before</a>
+          <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_upravene.mp3', 'After')">Piano after.mp3</a>
+          <a href="javascript:void(0);" onclick="openNotepad('A school project that was recorded during a lesson about microphones.There were 4 groups that tried different miking techniques, even the "incorrect" ones. You can compare my "Before" - raw audio how it was recorded - and the "After," which I cut, adjusted panning, volume, and EQ-ed a little.')">📄 README.txt</a>
+        </div>
 
-<!-- Folder 3 -->
-<div class="folder" onclick="toggleFolder('folder3')">📁 [Tlixer jingle]</div>
-<div id="folder3" class="folder-content">
-    <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/tlixer_jingel.wav', 'Tlixer Jingle')">Tlixer_final.mp3</a>
-    <a href="javascript:void(0);" onclick="openNotepad(project3Description)">📄 README.txt</a>
-</div>
+        <div class="folder" onclick="toggleFolder('folder3')">📁 [Tlixer jingel]</div>
+        <div id="folder3" class="folder-content">
+          <a href="javascript:void(0);" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/tlixer_jingel.wav', 'Tlixer Jingle')">Tlixer_final.mp3</a>
+          <a href="javascript:void(0);" onclick="openNotepad('A jingle created for a student radio in Bratislava for the new program Tlixer. The request was to incorporate a sound of a mixer, because the new program was covering a bunch of topics.')">📄 README.txt</a>
         </div>
       </div>
-      </div>
+    </div>
+    <!-- Pravý panel -->
     <div class="panel">
-      <div class="panel-header">Other files</div>
+      <div class="panel-header">Other Files</div>
       <div class="panel-content">
-         <a href="javascript:void(0);" onclick="openSnakeWindow()">🐍 snake.exe</a>
-          <a href="javascript:void(0);" onclick="openNotepad('Tu bude o mne popisane aka som uzasna')">
-            📄 README.txt
-          </a>
-        <p>✉️ Email: <a href="mailto:krista.ta.ista@gmail.com">krista.ta.ista@gmail.com</a></p>
-        <p>
-          🌐 Instagram: <a href="https://www.instagram.com/krista_ta_ista/" target="_blank">Insta_Krista</a>
-        </p>
-        <p>
-          🎵 SoundCloud: <a href="https://on.soundcloud.com/hf94zu8bjhZPFPg87" target="_blank">krista_ta_ista</a>
-        </p>
+        <a href="javascript:void(0);" onclick="openSnake()">🐍 snake.exe</a>
+        <a href="javascript:void(0);" onclick="openNotepad('About Me Content')">📄 README.txt</a>
       </div>
     </div>
   </div>
-  <div class="status-bar">
-    Status: Good sounds only
-  </div>
+  <div class="status-bar">Good sounds only</div>
+  <div id="webamp-container"></div>
 
-  <!-- Two Webamp players -->
-  <div id="app1"></div>
-  <div id="app2"></div>
-
-<script src="https://unpkg.com/webamp"></script>
-<script>
-  let currentWebamp1 = null;
-  let currentWebamp2 = null;
-
-  function toggleFolder(folderId) {
-    const folder = document.getElementById(folderId);
-    folder.style.display = (folder.style.display === "block") ? "none" : "block";
-  }
-
-  function openWebamp(url, title) {
-    const app1 = document.getElementById("app1");
-    const app2 = document.getElementById("app2");
-
-    // Reset Webamp players if opening a single file
-    if (currentWebamp1) currentWebamp1.dispose();
-    if (currentWebamp2) currentWebamp2.dispose();
-    currentWebamp1 = currentWebamp2 = null;
-
-    // Show the Webamp player
-    app1.style.display = "block";
-
-    // Play the file
-    currentWebamp1 = new Webamp({
-      initialTracks: [
-        {
-          url: url,
-          metaData: {
-            title: title,
-            artist: "Kristina's portfolio",
-          },
-        },
-      ],
-    });
-
-    currentWebamp1.renderWhenReady(app1);
-    app2.style.display = "none"; // Hide second player if not needed
-  }
-
-  const projectDescription = `
-A school project that was recorded during a lesson about microphones.
-There were 4 groups that tried different miking techniques, even the "incorrect" ones.
-You can compare my "Before" - raw audio how it was recorded - and the "After," which I cut, adjusted panning, volume 
-and EQ-ed a little.
-`;
-
-const project3Description = `
-A jingle created for a student radio in Bratislava for the new program Tlixer. The request was to incorporate a sound of a mixer,
-because the new program was covering a bunch of topics.
-`;
-
-function toggleFolder(folderId) {
-    const folder = document.getElementById(folderId);
-    if (folder) {
-        folder.style.display = folder.style.display === "block" ? "none" : "block";
+  <!-- Skripty -->
+  <script>
+    function toggleFolder(folderId) {
+      const folder = document.getElementById(folderId);
+      folder.style.display = folder.style.display === "block" ? "none" : "block";
     }
-}
 
-function openNotepad(content) {
-    const notepad = document.createElement('div');
-    notepad.className = 'notepad-window';
-    notepad.innerHTML = `
+    function openNotepad(content) {
+      const notepad = document.createElement('div');
+      notepad.className = 'notepad-window';
+      notepad.innerHTML = `
         <div class="notepad-header">
-            Notepad
-            <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
+          Notepad <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
         </div>
-        <div class="notepad-content">${content}</div>
-    `;
-    document.body.appendChild(notepad);
-}
-</script>
-
-<script>
-  function openSnakeWindow() {
-    const snakeWindow = document.createElement('div');
-    snakeWindow.className = 'snake-window';
-    snakeWindow.innerHTML = `
-      <div class="snake-header">
-        Snake Game
-        <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
-      </div>
-      <canvas id="snakeCanvas" width="300" height="300" style="margin: 10px auto; display: block; background-color: #000;"></canvas>
-    `;
-    document.body.appendChild(snakeWindow);
-
-    const canvas = snakeWindow.querySelector('#snakeCanvas');
-    const ctx = canvas.getContext('2d');
-    const box = 10;
-    let snake = [{ x: 5 * box, y: 5 * box }];
-    let food = {
-      x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
-      y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
-    };
-    let direction = 'RIGHT';
-
-    document.addEventListener('keydown', event => {
-      if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
-      if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
-      if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
-      if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
-    });
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = 0; i < snake.length; i++) {
-        ctx.fillStyle = i === 0 ? '#fff' : '#0f0';
-        ctx.fillRect(snake[i].x, snake[i].y, box, box);
-      }
-      ctx.fillStyle = '#f00';
-      ctx.fillRect(food.x, food.y, box, box);
-
-      let snakeX = snake[0].x;
-      let snakeY = snake[0].y;
-
-      if (direction === 'UP') snakeY -= box;
-      if (direction === 'DOWN') snakeY += box;
-      if (direction === 'LEFT') snakeX -= box;
-      if (direction === 'RIGHT') snakeX += box;
-
-      if (snakeX === food.x && snakeY === food.y) {
-        food = {
-          x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
-          y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
-        };
-      } else {
-        snake.pop();
-      }
-
-      let newHead = { x: snakeX, y: snakeY };
-      snake.unshift(newHead);
-
-      if (
-        snakeX < 0 ||
-        snakeY < 0 ||
-        snakeX >= canvas.width ||
-        snakeY >= canvas.height ||
-        snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
-      ) {
-        clearInterval(game);
-        alert('Game Over');
-      }
+        <textarea class="notepad-content" spellcheck="false">${content}</textarea>
+      `;
+      document.body.appendChild(notepad);
+      const textArea = notepad.querySelector('.notepad-content');
+      textArea.focus();
     }
 
-    const game = setInterval(draw, 100);
-  }
-</script>
+    function openWebamp(url, title) {
+      if (window.webampInstance) {
+        window.webampInstance.dispose();
+      }
+
+      const webampContainer = document.getElementById('webamp-container');
+      window.webampInstance = new Webamp({
+        initialTracks: [
+          {
+            url: url,
+            metaData: { title },
+          },
+        ],
+      });
+
+      window.webampInstance.renderWhenReady(webampContainer);
+    }
+
+    function openSnake() {
+      const snakeWindow = document.createElement('div');
+      snakeWindow.className = 'snake-window';
+      snakeWindow.innerHTML = `
+        <div class="snake-header">
+          Snake Game <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
+        </div>
+        <canvas id="snakeCanvas" width="300" height="300" style="margin: auto; background-color: #000;"></canvas>
+      `;
+      document.body.appendChild(snakeWindow);
+
+      const canvas = snakeWindow.querySelector('#snakeCanvas');
+      const ctx = canvas.getContext('2d');
+      const box = 10;
+      let snake = [{ x: 5 * box, y: 5 * box }];
+      let food = {
+        x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
+        y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
+      };
+      let direction = 'RIGHT';
+
+      document.addEventListener('keydown', event => {
+        if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
+        if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
+        if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
+        if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
+      });
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < snake.length; i++) {
+          ctx.fillStyle = i === 0 ? '#fff' : '#0f0';
+          ctx.fillRect(snake[i].x, snake[i].y, box, box);
+        }
+        ctx.fillStyle = '#f00';
+        ctx.fillRect(food.x, food.y, box, box);
+
+        let snakeX = snake[0].x;
+        let snakeY = snake[0].y;
+
+        if (direction === 'UP') snakeY -= box;
+        if (direction === 'DOWN') snakeY += box;
+        if (direction === 'LEFT') snakeX -= box;
+        if (direction === 'RIGHT') snakeX += box;
+
+        if (snakeX === food.x && snakeY === food.y) {
+          food = {
+            x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
+            y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
+          };
+        } else {
+          snake.pop();
+        }
+
+        let newHead = { x: snakeX, y: snakeY };
+        snake.unshift(newHead);
+
+        if (
+          snakeX < 0 ||
+          snakeY < 0 ||
+          snakeX >= canvas.width ||
+          snakeY >= canvas.height ||
+          snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
+        ) {
+          clearInterval(game);
+          alert('Game Over');
+        }
+      }
+
+      const game = setInterval(draw, 100);
+    }
+  </script>
 </body>
 </html>
-
