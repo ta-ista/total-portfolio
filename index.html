@@ -81,13 +81,14 @@
     position: fixed; /* Pevné umiestnenie na spodok */
     bottom: 0;
     left: 0;
-    width: 100%; /* Na celú šírku stránky */
+    width: calc(100% - 40px); /* Šírka mínus odsadenie */
     background-color: #2e2e2e;
     color: #fff;
-    white-space: normal;
-    padding: 20px;
-    padding-right: 30px; 
-    text-align: right; 
+    white-space: nowrap; /* Zabraňuje zalamovaniu textu */
+    overflow: hidden; /* Skryje pretekajúci obsah (ak existuje) */
+    text-align: right; /* Zarovnanie doprava */
+    padding: 5px 20px; /* Pridá odsadenie z oboch strán */
+    box-sizing: border-box; /* Zohľadňuje padding do celkovej šírky */
     font-size: 12px;
     z-index: 1000;
 }
