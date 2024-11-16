@@ -157,6 +157,17 @@
       font-size: 12px;
       box-sizing: border-box;
     }
+     .webamp-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: #000;
+    padding: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+  }
   </style>
   <script src="https://unpkg.com/webamp"></script>
 </head>
@@ -198,6 +209,10 @@
   </div>
   <div class="status-bar">Good sounds only</div>
   <div id="webamp-container"></div>
+  <div id="webamp-container" style="display: none;"></div>
+  <div id="webamp-container" style="display: none;">
+  <button onclick="closeWebamp()" style="position: absolute; top: 10px; right: 10px;">Close</button>
+</div>
 
   <!-- Skripty -->
   <script>
@@ -220,23 +235,43 @@
       textArea.focus();
     }
 
-    function openWebamp(url, title) {
-      if (window.webampInstance) {
-        window.webampInstance.dispose();
-      }
+    let currentWebamp = null;
 
-      const webampContainer = document.getElementById('webamp-container');
-      window.webampInstance = new Webamp({
-        initialTracks: [
-          {
-            url: url,
-            metaData: { title },
-          },
-        ],
-      });
+  function openWebamp(url, title) {
+    const webampContainer = document.getElementById('webamp-container');
+    webampContainer.style.display = 'block'; // Show the container
 
-      window.webampInstance.renderWhenReady(webampContainer);
+    // Remove existing Webamp instance if any
+    if (currentWebamp) {
+      currentWebamp.dispose();
+      webampContainer.innerHTML = ''; // Clear previous content
     }
+
+    // Create a new Webamp instance
+    currentWebamp = new Webamp({
+      initialTracks: [
+        {
+          url: url,
+          metaData: {
+            title: title,
+            artist: "Kristina's Portfolio",
+          },
+        },
+      ],
+      appendTo: webampContainer, // Render inside the container
+    });
+
+    currentWebamp.renderWhenReady(webampContainer);
+  }
+
+  function closeWebamp() {
+    const webampContainer = document.getElementById('webamp-container');
+    if (currentWebamp) {
+      currentWebamp.dispose();
+      currentWebamp = null;
+    }
+    webampContainer.style.display = 'none'; // Hide the container
+  }
 
     function openSnake() {
       const snakeWindow = document.createElement('div');
