@@ -107,9 +107,35 @@
       display: none; /* Hide Webamp players initially */
       margin-top: 20px;
     }
+
+    /* Mobile warning styles */
+    #mobile-warning {
+      display: none; /* Hidden by default */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffcc00;
+      color: #000;
+      font-size: 16px;
+      text-align: center;
+      padding: 10px;
+      z-index: 10000;
+    }
+
+    /* Show the warning only on small screens */
+    @media screen and (max-width: 768px) {
+      #mobile-warning {
+        display: block; /* Display warning on mobile screens */
+      }
+    }
   </style>
 </head>
 <body>
+  <div id="mobile-warning">
+    For the best experience, watch this on your PC!
+  </div>
+
   <div class="header">
     Total Portfolio: ta_ista
   </div>
@@ -163,13 +189,8 @@
   let currentWebamp2 = null;
 
   function toggleFolder(folderId) {
-    console.log("Toggling folder:", folderId); // Debugging line to check function call
     const folder = document.getElementById(folderId);
-    if (folder) {
-      folder.style.display = (folder.style.display === "block") ? "none" : "block";
-    } else {
-      console.error("Folder not found:", folderId);
-    }
+    folder.style.display = (folder.style.display === "block") ? "none" : "block";
   }
 
   function openWebamp(url, title) {
