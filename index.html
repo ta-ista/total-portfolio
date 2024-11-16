@@ -105,34 +105,30 @@
     }
     #app1, #app2 {
       display: none; /* Hide Webamp players initially */
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1000; /* Ensure it appears on top */
-}
+      margin-top: 20px;
+    }
 
     /* Mobile warning styles */
-  #mobile-warning {
-  display: none; /* Hidden by default */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #ffcc00;
-  color: #000;
-  font-size: 16px;
-  text-align: center;
-  padding: 10px;
-  z-index: 10000; /* Make sure it appears on top of everything */
-}
+    #mobile-warning {
+      display: none; /* Hidden by default */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffcc00;
+      color: #000;
+      font-size: 16px;
+      text-align: center;
+      padding: 10px;
+      z-index: 10000;
+    }
 
-/* Show the warning only on small screens */
-@media screen and (max-width: 768px) {
-  #mobile-warning {
-    display: block; /* Display warning on mobile screens */
-  }
-}
+    /* Show the warning only on small screens */
+    @media screen and (max-width: 768px) {
+      #mobile-warning {
+        display: block; /* Display warning on mobile screens */
+      }
+    }
   </style>
 </head>
 <body>
@@ -216,7 +212,7 @@
           url: url,
           metaData: {
             title: title,
-            artist: "Kristina's portfolio",
+            artist: "Kristinas portfolio",
           },
         },
       ],
@@ -229,22 +225,14 @@
   function openNotepad(content) {
     const notepad = document.createElement('div');
     notepad.className = 'notepad-window';
-    notepad.innerHTML = 
+    notepad.innerHTML = `
       <div class="notepad-header">
         Notepad
         <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
       </div>
       <div class="notepad-content">${content}</div>
-    ;
+    `;
     document.body.appendChild(notepad);
-  }
-</script>
-<script>
-  // Check screen width and log if the warning is visible
-  if (window.innerWidth <= 768) {
-    console.log('Mobile warning should be visible.');
-  } else {
-    console.log('Mobile warning is hidden on larger screens.');
   }
 </script>
 </body>
