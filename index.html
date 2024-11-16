@@ -196,10 +196,6 @@
       </div>
     </div>
     
-    <div class="snake-panel" onclick="openSnake()">
-      <span class="snake-icon">🐍</span>
-    </div>
-    
     <div class="panel">
       <div class="panel-header">Other files</div>
       <div class="panel-content">
@@ -280,74 +276,80 @@
 </script>
   
   <script>
-<script>
-  function openSnakeWindow() {
-    const snakeWindow = document.createElement('div');
-    snakeWindow.className = 'snake-window';
-    snakeWindow.innerHTML = `
-      <div class="snake-header">
-        Snake Game
-        <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
-      </div>
-      <canvas id="snakeCanvas" width="300" height="300" style="margin: 10px auto; display: block;"></canvas>
-      <script>
-        const canvas = document.getElementById('snakeCanvas');
-        const ctx = canvas.getContext('2d');
-        const box = 10;
-        let snake = [{ x: 15 * box, y: 15 * box }];
-        let food = {
-          x: Math.floor(Math.random() * (canvas.width / box)) * box,
-          y: Math.floor(Math.random() * (canvas.height / box)) * box,
-        };
-        let direction = 'RIGHT';
+function openSnakeWindow() {
+  // Vytvorenie "okna" pre hru Snake
+  const snakeWindow = document.createElement('div');
+  snakeWindow.className = 'snake-window';
+  snakeWindow.innerHTML = `
+    <div class="snake-header">
+      Snake Game
+      <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
+    </div>
+    <canvas id="snakeCanvas" width="300" height="300" style="margin: 10px auto; display: block;"></canvas>
+  `;
+  document.body.appendChild(snakeWindow);
 
-        document.addEventListener('keydown', event => {
-          if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
-          if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
-          if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
-          if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
-        });
+  // Inicializácia hry Snake
+  const canvas = snakeWindow.querySelector('#snakeCanvas');
+  const ctx = canvas.getContext('2d');
+  const box = 10;
+  let snake = [{ x: 15 * box, y: 15 * box }];
+  let food = {
+    x: Math.floor(Math.random() * (canvas.width / box)) * box,
+    y: Math.floor(Math.random() * (canvas.height / box)) * box,
+  };
+  let direction = 'RIGHT';
 
-        function draw() {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          for (let i = 0; i < snake.length; i++) {
-            ctx.fillStyle = i === 0 ? '#fff' : '#0f0';
-            ctx.fillRect(snake[i].x, snake[i].y, box, box);
-          }
-          ctx.fillStyle = '#f00';
-          ctx.fillRect(food.x, food.y, box, box);
-          let snakeX = snake[0].x;
-          let snakeY = snake[0].y;
-          if (direction === 'UP') snakeY -= box;
-          if (direction === 'DOWN') snakeY += box;
-          if (direction === 'LEFT') snakeX -= box;
-          if (direction === 'RIGHT') snakeX += box;
-          if (snakeX === food.x && snakeY === food.y) {
-            food = {
-              x: Math.floor(Math.random() * (canvas.width / box)) * box,
-              y: Math.floor(Math.random() * (canvas.height / box)) * box,
-            };
-          } else {
-            snake.pop();
-          }
-          let newHead = { x: snakeX, y: snakeY };
-          snake.unshift(newHead);
-          if (
-            snakeX < 0 ||
-            snakeY < 0 ||
-            snakeX >= canvas.width ||
-            snakeY >= canvas.height ||
-            snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
-          ) {
-            clearInterval(game);
-            alert('Game Over');
-          }
-        }
-        const game = setInterval(draw, 100);
-      </script>
-    `;
-    document.body.appendChild(snakeWindow);
+  document.addEventListener('keydown', event => {
+    if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
+    if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
+    if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
+    if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < snake.length; i++) {
+      ctx.fillStyle = i === 0 ? '#fff' : '#0f0';
+      ctx.fillRect(snake[i].x, snake[i].y, box, box);
+    }
+    ctx.fillStyle = '#f00';
+    ctx.fillRect(food.x, food.y, box, box);
+
+    let snakeX = snake[0].x;
+    let snakeY = snake[0].y;
+
+    if (direction === 'UP') snakeY -= box;
+    if (direction === 'DOWN') snakeY += box;
+    if (direction === 'LEFT') snakeX -= box;
+    if (direction === 'RIGHT') snakeX += box;
+
+    if (snakeX === food.x && snakeY === food.y) {
+      food = {
+        x: Math.floor(Math.random() * (canvas.width / box)) * box,
+        y: Math.floor(Math.random() * (canvas.height / box)) * box,
+      };
+    } else {
+      snake.pop();
+    }
+
+    let newHead = { x: snakeX, y: snakeY };
+    snake.unshift(newHead);
+
+    if (
+      snakeX < 0 ||
+      snakeY < 0 ||
+      snakeX >= canvas.width ||
+      snakeY >= canvas.height ||
+      snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
+    ) {
+      clearInterval(game);
+      alert('Game Over');
+    }
   }
+
+  const game = setInterval(draw, 100);
+}
 </script>
 
 </body>
