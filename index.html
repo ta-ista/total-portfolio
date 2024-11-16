@@ -148,13 +148,16 @@ a {
     }
      }
    .status-bar {
-  background-color: #000000 !important; /* Čierne pozadie */
-  padding: 5px !important;
-  text-align: right !important; /* Zarovnané doprava */
-  font-size: 12px !important;
-  color: #FFFFFF !important; /* Biely text */
-  border-top: 1px solid #555 !important; /* Oddelenie status baru */
-    }
+  position: fixed; /* Na spodok stránky */
+  bottom: 0;
+  width: 100%; /* Na celú šírku stránky */
+  background-color: #000000; /* Čierne pozadie */
+  color: #FFFFFF; /* Biely text */
+  text-align: right; /* Zarovnanie textu doprava */
+  padding: 5px; /* Priestor vo vnútri status baru */
+  font-size: 12px; /* Veľkosť písma */
+  border-top: 1px solid #555; /* Horný okraj status baru */
+  z-index: 1000; /* Nad všetkými prvkami */
   </style>
 </head>
 <body>
