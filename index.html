@@ -279,27 +279,32 @@
 </script>
   <script>
  function openSnakeWindow() {
+  // Vytvorenie "okna" pre hru Snake
   const snakeWindow = document.createElement('div');
   snakeWindow.className = 'snake-window';
-  snakeWindow.innerHTML = `
+  snakeWindow.innerHTML = 
     <div class="snake-header">
       Snake Game
       <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
     </div>
     <canvas id="snakeCanvas" width="300" height="300" style="margin: 10px auto; display: block;"></canvas>
-  `;
+  ;
   document.body.appendChild(snakeWindow);
 
+  // Inicializácia hry Snake
   const canvas = snakeWindow.querySelector('#snakeCanvas');
   const ctx = canvas.getContext('2d');
   const box = 10;
-  let snake = [{ x: 15 * box, y: 15 * box }];
+  const canvasSize = 30; // Veľkosť mriežky 30x30 boxov
+  let snake = [{ x: 15 * box, y: 15 * box }]; // Počiatočná pozícia hada
   let food = {
-    x: Math.floor(Math.random() * (canvas.width / box)) * box,
-    y: Math.floor(Math.random() * (canvas.height / box)) * box,
+    x: Math.floor(Math.random() * canvasSize) * box,
+    y: Math.floor(Math.random() * canvasSize) * box,
   };
   let direction = 'RIGHT';
+  let score = 0;
 
+  // Zabezpečenie, že had nezmení smer na opačný
   document.addEventListener('keydown', event => {
     if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
     if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
@@ -308,14 +313,21 @@
   });
 
   function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Vyčistenie plátna
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Nakreslenie hada
     for (let i = 0; i < snake.length; i++) {
-      ctx.fillStyle = i === 0 ? '#fff' : '#0f0';
+      ctx.fillStyle = i === 0 ? '#fff' : '#0f0'; // Hlavička biela, telo zelené
       ctx.fillRect(snake[i].x, snake[i].y, box, box);
     }
+
+    // Nakreslenie jedla
     ctx.fillStyle = '#f00';
     ctx.fillRect(food.x, food.y, box, box);
 
+    // Pohyb hada
     let snakeX = snake[0].x;
     let snakeY = snake[0].y;
 
@@ -324,18 +336,22 @@
     if (direction === 'LEFT') snakeX -= box;
     if (direction === 'RIGHT') snakeX += box;
 
+    // Kontrola, či had zjedol jedlo
     if (snakeX === food.x && snakeY === food.y) {
+      score++;
       food = {
-        x: Math.floor(Math.random() * (canvas.width / box)) * box,
-        y: Math.floor(Math.random() * (canvas.height / box)) * box,
+        x: Math.floor(Math.random() * canvasSize) * box,
+        y: Math.floor(Math.random() * canvasSize) * box,
       };
     } else {
+      // Ak nezjedol jedlo, odstráni sa posledný článok hada
       snake.pop();
     }
 
+    // Pridanie novej hlavy hada
     let newHead = { x: snakeX, y: snakeY };
-    snake.unshift(newHead);
 
+    // Kontrola kolízií s hranicami plátna alebo s vlastným telom
     if (
       snakeX < 0 ||
       snakeY < 0 ||
@@ -344,12 +360,17 @@
       snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
     ) {
       clearInterval(game);
-      alert('Game Over');
+      alert(Game Over! Your score: ${score});
+      return;
     }
+
+    snake.unshift(newHead);
   }
 
   const game = setInterval(draw, 100);
 }
+
 </script>
+
 </body>
 </html>
