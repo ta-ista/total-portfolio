@@ -155,6 +155,17 @@
       font-size: 12px;
       box-sizing: border-box;
     }
+    .webamp-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background-color: #000; /* Pozadie okolo Webampu */
+  padding: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+}
   </style>
   <script src="https://unpkg.com/webamp"></script>
 </head>
@@ -175,7 +186,7 @@
         <div id="folder2" class="folder-content">
           <a href="javascript:void(0);" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Before')">Piano before</a>
           <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_upravene.mp3', 'After')">Piano after.mp3</a>
-          <a href="javascript:void(0);" onclick="openNotepad('A school project that was recorded during a lesson about microphones.There were 4 groups that tried different miking techniques, even the "incorrect" ones. You can compare my "Before" - raw audio how it was recorded - and the "After," which I cut, adjusted panning, volume, and EQ-ed a little.')">📄 README.txt</a>
+          <a href="javascript:void(0);" onclick="openNotepad('A school project that was recorded during a lesson about microphones.There were 4 groups that tried different miking techniques, even the incorrect ones. You can compare my Before - raw audio how it was recorded - and the After, which I cut, adjusted panning, volume, and EQ-ed a little.')">📄 README.txt</a>
         </div>
 
         <div class="folder" onclick="toggleFolder('folder3')">📁 [Tlixer jingel]</div>
@@ -219,22 +230,36 @@
     }
 
     function openWebamp(url, title) {
-      if (window.webampInstance) {
-        window.webampInstance.dispose();
-      }
+  // Odstráňte predchádzajúci Webamp, ak existuje
+  if (currentWebamp1) currentWebamp1.dispose();
 
-      const webampContainer = document.getElementById('webamp-container');
-      window.webampInstance = new Webamp({
-        initialTracks: [
-          {
-            url: url,
-            metaData: { title },
-          },
-        ],
-      });
+  // Vytvorte kontajner pre Webamp
+  const webampContainer = document.createElement('div');
+  webampContainer.className = 'webamp-container';
+  webampContainer.id = 'webamp';
+  document.body.appendChild(webampContainer);
 
-      window.webampInstance.renderWhenReady(webampContainer);
-    }
+  // Inicializácia Webamp
+  currentWebamp1 = new Webamp({
+    initialTracks: [
+      {
+        url: url,
+        metaData: {
+          title: title,
+          artist: "Kristina's Portfolio",
+        },
+      },
+    ],
+  });
+
+  currentWebamp1.renderWhenReady(webampContainer);
+}
+function closeWebamp() {
+  if (currentWebamp1) currentWebamp1.dispose();
+  const webampElement = document.getElementById('webamp');
+  if (webampElement) webampElement.remove();
+}
+</script>
 
     function openSnake() {
       const snakeWindow = document.createElement('div');
