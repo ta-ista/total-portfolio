@@ -23,7 +23,7 @@
       height: calc(100vh - 50px);
     }
     .panel {
-      flex: 1 1 50%; /* Každý panel zaberie polovicu šírky */
+      flex: 1 1 50%;
       border: 1px solid #555;
       margin: 5px;
       display: flex;
@@ -42,25 +42,25 @@
       overflow-y: auto;
       padding: 10px;
       font-size: 14px;
-      color: #000;    
+      color: #000;
     }
     .status-bar {
-      position: fixed; /* Na spodok stránky */
+      position: fixed;
       bottom: 0;
-      width: 100%; /* Na celú šírku stránky */
-      background-color: #000000; /* Čierne pozadie */
-      color: #FFFFFF; /* Biely text */
-      text-align: right; /* Zarovnanie textu doprava */
-      padding: 5px; /* Priestor vo vnútri status baru */
-      font-size: 12px; /* Veľkosť písma */
-      border-top: 1px solid #555; /* Horný okraj status baru */
-      z-index: 1000; /* Nad všetkými prvkami */
+      width: 100%;
+      background-color: #000000;
+      color: #FFFFFF;
+      text-align: right;
+      padding: 5px;
+      font-size: 12px;
+      border-top: 1px solid #555;
+      z-index: 1000;
     }
     a {
       color: #000000;
       text-decoration: none;
-      display: block; /* Zabezpečí, že každý odkaz je blokový element */
-      margin-bottom: 5px; /* Vytvorí medzeru medzi súbormi */
+      display: block;
+      margin-bottom: 5px;
     }
     a:hover {
       text-decoration: underline;
@@ -75,104 +75,69 @@
       margin-left: 20px;
       display: none;
     }
+    .audio-file::before {
+      content: "";
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background-image: url('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/winamp_icon.png');
+      background-size: contain;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
   </style>
 </head>
 <body>
-  
-  <div class="header">
-    Total Portfolio: ta_ista
-  </div>
-  <div class="main">
-    <div class="panel">
-      <div class="panel-header">Projekty</div>
-      <div class="panel-content">
-        <!-- Folder 1 -->
-        <div class="folder" onclick="toggleFolder('folder1')">📁 [Hozier cover remix]</div>
-        <div id="folder1" class="folder-content">
-          <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/hozier_rmx final.mp3', 'Hozier Remix')">
-            Hozier_rmx_final.mp3
-          </a>
-          <a href="javascript:void(0);" onclick="openNotepad('A remix project inspired by Hozier’s music, combining piano and modern beats.')">
-            📄 README.txt
-          </a>
-        </div>
 
-        <!-- Folder 2 -->
-        <div class="folder" onclick="toggleFolder('folder2')">📁 [School project]</div>
-        <div id="folder2" class="folder-content">
-          <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Before')">Before.mp3</a>
-          <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_upravene.mp3', 'After')">After.mp3</a>
-          <a href="javascript:void(0);" onclick="openNotepad('A school project exploring audio transformations from “Before” to “After.”')"> 📄 README.txt</a>
-        </div>
-
-        <!-- Folder 3 -->
-        <div class="folder" onclick="toggleFolder('folder3')">📁 [Tlixer jingel]</div>
-        <div id="folder3" class="folder-content">
-          <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/tlixer_jingel.wav', 'Tlixer Jingle')">
-            Tlixer_final.mp3
-          </a>
-          <a href="javascript:void(0);" onclick="openNotepad('A jingle created for the Tlixer project, blending dynamic melodies and catchy tunes.')">
-            📄 README.txt
-          </a>
-        </div>
-      </div>
-    </div>
-    
-    <div class="panel">
-      <div class="panel-header">Other files</div>
-      <div class="panel-content">
-        <a href="javascript:void(0);" onclick="openSnakeWindow()">🐍 snake.exe</a>
-        <a href="javascript:void(0);" onclick="openNotepad('Tu bude o mne popisane aka som uzasna')">
+<div class="header">
+  Total Portfolio: ta_ista
+</div>
+<div class="main">
+  <div class="panel">
+    <div class="panel-header">Projekty</div>
+    <div class="panel-content">
+      <div class="folder" onclick="toggleFolder('folder1')">📁 [Hozier cover remix]</div>
+      <div id="folder1" class="folder-content">
+        <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/hozier_rmx_final.mp3', 'Hozier Remix')">
+          Hozier_rmx_final.mp3
+        </a>
+        <a href="javascript:void(0);" onclick="openNotepad('A remix project inspired by Hozier’s music, combining piano and modern beats.')">
           📄 README.txt
         </a>
-        <p>✉️ Email: <a href="mailto:krista.ta.ista@gmail.com">krista.ta.ista@gmail.com</a></p>
-        <p>🌐 Instagram: <a href="https://www.instagram.com/krista_ta_ista/" target="_blank">Insta_Krista</a></p>
-        <p>🎵 SoundCloud: <a href="https://on.soundcloud.com/hf94zu8bjhZPFPg87" target="_blank">krista_ta_ista</a></p>
+      </div>
+      <div class="folder" onclick="toggleFolder('folder2')">📁 [School project]</div>
+      <div id="folder2" class="folder-content">
+        <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Before')">Before.mp3</a>
+        <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_upravene.mp3', 'After')">After.mp3</a>
+        <a href="javascript:void(0);" onclick="openNotepad('A school project exploring audio transformations from “Before” to “After.”')">📄 README.txt</a>
       </div>
     </div>
   </div>
-  
-  <div class="status-bar">
-    Status: Good sounds only
+
+  <div class="panel">
+    <div class="panel-header">Other files</div>
+    <div class="panel-content">
+      <a href="javascript:void(0);" onclick="openSnakeWindow()">🐍 snake.exe</a>
+      <a href="javascript:void(0);" onclick="openNotepad('Tu bude o mne popisane aka som uzasna')">📄 README.txt</a>
+      <p>✉️ Email: <a href="mailto:krista.ta.ista@gmail.com">krista.ta.ista@gmail.com</a></p>
+      <p>🌐 Instagram: <a href="https://www.instagram.com/krista_ta_ista/" target="_blank">Insta_Krista</a></p>
+      <p>🎵 SoundCloud: <a href="https://on.soundcloud.com/hf94zu8bjhZPFPg87" target="_blank">krista_ta_ista</a></p>
+    </div>
   </div>
+</div>
 
-<script src="https://unpkg.com/webamp"></script>
+<div class="status-bar">
+  Status: Good sounds only
+</div>
+
 <script>
-  let currentWebamp1 = null;
-  let currentWebamp2 = null;
-
   function toggleFolder(folderId) {
     const folder = document.getElementById(folderId);
     folder.style.display = (folder.style.display === "block") ? "none" : "block";
   }
 
   function openWebamp(url, title) {
-    const app1 = document.getElementById("app1");
-    const app2 = document.getElementById("app2");
-
-    // Reset Webamp players if opening a single file
-    if (currentWebamp1) currentWebamp1.dispose();
-    if (currentWebamp2) currentWebamp2.dispose();
-    currentWebamp1 = currentWebamp2 = null;
-
-    // Show the Webamp player
-    app1.style.display = "block";
-
-    // Play the file
-    currentWebamp1 = new Webamp({
-      initialTracks: [
-        {
-          url: url,
-          metaData: {
-            title: title,
-            artist: "Kristina's portfolio",
-          },
-        },
-      ],
-    });
-
-    currentWebamp1.renderWhenReady(app1);
-    app2.style.display = "none"; // Hide second player if not needed
+    alert('Webamp opening: ' + title);
   }
 
   function openNotepad(content) {
@@ -187,101 +152,10 @@
     `;
     document.body.appendChild(notepad);
   }
-</script>
-  
-  <script>
-function openSnakeWindow() {
-  // Vytvorenie "okna" pre hru Snake
-  const snakeWindow = document.createElement('div');
-  snakeWindow.className = 'snake-window';
-  snakeWindow.innerHTML = `
-    <div class="snake-header">
-      Snake Game
-      <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
-    </div>
-    <canvas id="snakeCanvas" width="300" height="300" style="margin: 10px auto; display: block;"></canvas>
-  `;
-  document.body.appendChild(snakeWindow);
 
-  // Inicializácia hry Snake
-  const canvas = snakeWindow.querySelector('#snakeCanvas');
-  const ctx = canvas.getContext('2d');
-  const box = 10;
-  const canvasSize = 30; // Veľkosť mriežky 30x30 boxov
-  let snake = [{ x: 15 * box, y: 15 * box }]; // Počiatočná pozícia hada
-  let food = {
-    x: Math.floor(Math.random() * canvasSize) * box,
-    y: Math.floor(Math.random() * canvasSize) * box,
-  };
-  let direction = 'RIGHT';
-  let score = 0;
-
-  // Zabezpečenie, že had nezmení smer na opačný
-  document.addEventListener('keydown', event => {
-    if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
-    if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
-    if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
-    if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
-  });
-
-  function draw() {
-    // Vyčistenie plátna
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Nakreslenie hada
-    for (let i = 0; i < snake.length; i++) {
-      ctx.fillStyle = i === 0 ? '#fff' : '#0f0'; // Hlavička biela, telo zelené
-      ctx.fillRect(snake[i].x, snake[i].y, box, box);
-    }
-
-    // Nakreslenie jedla
-    ctx.fillStyle = '#f00';
-    ctx.fillRect(food.x, food.y, box, box);
-
-    // Pohyb hada
-    let snakeX = snake[0].x;
-    let snakeY = snake[0].y;
-
-    if (direction === 'UP') snakeY -= box;
-    if (direction === 'DOWN') snakeY += box;
-    if (direction === 'LEFT') snakeX -= box;
-    if (direction === 'RIGHT') snakeX += box;
-
-    // Kontrola, či had zjedol jedlo
-    if (snakeX === food.x && snakeY === food.y) {
-      score++;
-      food = {
-        x: Math.floor(Math.random() * canvasSize) * box,
-        y: Math.floor(Math.random() * canvasSize) * box,
-      };
-    } else {
-      // Ak nezjedol jedlo, odstráni sa posledný článok hada
-      snake.pop();
-    }
-
-    // Pridanie novej hlavy hada
-    let newHead = { x: snakeX, y: snakeY };
-
-    // Kontrola kolízií s hranicami plátna alebo s vlastným telom
-    if (
-      snakeX < 0 ||
-      snakeY < 0 ||
-      snakeX >= canvas.width ||
-      snakeY >= canvas.height ||
-      snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
-    ) {
-      clearInterval(game);
-      alert(`Game Over! Your score: ${score}`);
-      return;
-    }
-
-    snake.unshift(newHead);
+  function openSnakeWindow() {
+    alert('Snake game opened!');
   }
-
-  const game = setInterval(draw, 100);
-}
-
 </script>
 
 </body>
