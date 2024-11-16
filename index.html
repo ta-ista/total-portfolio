@@ -18,28 +18,9 @@
       font-size: 18px;
       color: #fff;
     }
-    #mobile-warning {
-      display: none; /* Hidden by default */
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: #ffcc00;
-      color: #000;
-      font-size: 16px;
-      text-align: center;
-      padding: 10px;
-      z-index: 10000; /* Ensure it appears on top */
-    }
-    @media screen and (max-width: 768px) {
-      #mobile-warning {
-        display: block; /* Display warning on mobile screens */
-      }
-    }
     .main {
       display: flex;
       height: calc(100vh - 50px);
-      flex-wrap: wrap; /* Allow items to wrap on small screens */
     }
     .panel {
       flex: 1;
@@ -48,12 +29,6 @@
       display: flex;
       flex-direction: column;
       background-color: #C0C0C0;
-      min-width: calc(100% - 10px); /* Full width on small screens */
-    }
-    @media screen and (min-width: 769px) {
-      .panel {
-        min-width: 45%; /* Adjust panel width on larger screens */
-      }
     }
     .panel-header {
       background-color: #C0C0FF;
@@ -76,6 +51,88 @@
       font-size: 12px;
       color: #fff;
     }
+    a {
+      color: #000000;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 5px;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .folder {
+      cursor: pointer;
+      color: #000000;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .folder-content {
+      margin-left: 20px;
+      display: none;
+    }
+    .notepad-window {
+      position: fixed;
+      width: 400px;
+      height: 300px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #FFFFFF;
+      border: 2px solid #000;
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      overflow: auto;
+      z-index: 1000;
+      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    .notepad-header {
+      background-color: #2e2e2e;
+      color: #fff;
+      padding: 5px;
+      cursor: move;
+    }
+    .notepad-content {
+      padding: 10px;
+      white-space: pre-wrap;
+    }
+    .close-btn {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    #app1, #app2 {
+      display: none; /* Hide Webamp players initially */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000; /* Ensure it appears on top */
+}
+
+    /* Mobile warning styles */
+  #mobile-warning {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ffcc00;
+  color: #000;
+  font-size: 16px;
+  text-align: center;
+  padding: 10px;
+  z-index: 10000; /* Make sure it appears on top of everything */
+}
+
+/* Show the warning only on small screens */
+@media screen and (max-width: 768px) {
+  #mobile-warning {
+    display: block; /* Display warning on mobile screens */
+  }
+}
   </style>
 </head>
 <body>
@@ -90,10 +147,26 @@
     <div class="panel">
       <div class="panel-header">Projekty</div>
       <div class="panel-content">
+        <!-- Folder 1 -->
         <div class="folder" onclick="toggleFolder('folder1')">📁 [Hozier cover remix]</div>
         <div id="folder1" class="folder-content">
-          <a href="#">Projekt 1.mp3</a>
-          <a href="#">README.txt</a>
+          <a href="javascript:void(0);" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/hozier_rmx final.mp3', 'Projekt 1')">Hozier_rmx_final.mp3</a>
+          <a href="javascript:void(0);" onclick="openNotepad('A remix project inspired by Hozier’s music, combining piano and modern beats.')">README.txt</a>
+        </div>
+
+        <!-- Folder 2 -->
+        <div class="folder" onclick="toggleFolder('folder2')">📁 [School project]</div>
+        <div id="folder2" class="folder-content">
+          <a href="javascript:void(0);" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Before')">Before.mp3</a>
+          <a href="javascript:void(0);" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_upravene.mp3', 'After')">After.mp3</a>
+          <a href="javascript:void(0);" onclick="openNotepad('A school project exploring audio transformations from “Before” to “After.”')">README.txt</a>
+        </div>
+
+        <!-- Folder 3 -->
+        <div class="folder" onclick="toggleFolder('folder3')">📁 [Tlixer jingel]</div>
+        <div id="folder3" class="folder-content">
+          <a href="javascript:void(0);" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/tlixer_jingel.wav', 'Projekt 1')">Tlixer_final.mp3</a>
+          <a href="javascript:void(0);" onclick="openNotepad('A jingle created for the Tlixer project, blending dynamic melodies and catchy tunes.')">README.txt</a>
         </div>
       </div>
     </div>
@@ -109,15 +182,70 @@
   <div class="status-bar">
     Stav: 3 priečinky zobrazené
   </div>
-  <script>
-    // Debugging: Log whether mobile warning should be visible
-    window.addEventListener("load", () => {
-      if (window.innerWidth <= 768) {
-        console.log("Mobile warning should be visible.");
-      } else {
-        console.log("Mobile warning is hidden.");
-      }
+
+  <!-- Two Webamp players -->
+  <div id="app1"></div>
+  <div id="app2"></div>
+
+<script src="https://unpkg.com/webamp"></script>
+<script>
+  let currentWebamp1 = null;
+  let currentWebamp2 = null;
+
+  function toggleFolder(folderId) {
+    const folder = document.getElementById(folderId);
+    folder.style.display = (folder.style.display === "block") ? "none" : "block";
+  }
+
+  function openWebamp(url, title) {
+    const app1 = document.getElementById("app1");
+    const app2 = document.getElementById("app2");
+
+    // Reset Webamp players if opening a single file
+    if (currentWebamp1) currentWebamp1.dispose();
+    if (currentWebamp2) currentWebamp2.dispose();
+    currentWebamp1 = currentWebamp2 = null;
+
+    // Show the Webamp player
+    app1.style.display = "block";
+
+    // Play the file
+    currentWebamp1 = new Webamp({
+      initialTracks: [
+        {
+          url: url,
+          metaData: {
+            title: title,
+            artist: "Kristina's portfolio",
+          },
+        },
+      ],
     });
-  </script>
+
+    currentWebamp1.renderWhenReady(app1);
+    app2.style.display = "none"; // Hide second player if not needed
+  }
+
+  function openNotepad(content) {
+    const notepad = document.createElement('div');
+    notepad.className = 'notepad-window';
+    notepad.innerHTML = 
+      <div class="notepad-header">
+        Notepad
+        <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
+      </div>
+      <div class="notepad-content">${content}</div>
+    ;
+    document.body.appendChild(notepad);
+  }
+</script>
+<script>
+  // Check screen width and log if the warning is visible
+  if (window.innerWidth <= 768) {
+    console.log('Mobile warning should be visible.');
+  } else {
+    console.log('Mobile warning is hidden on larger screens.');
+  }
+</script>
 </body>
 </html>
