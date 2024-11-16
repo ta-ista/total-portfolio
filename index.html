@@ -216,7 +216,7 @@
           url: url,
           metaData: {
             title: title,
-            artist: "Kristinas portfolio",
+            artist: "Kristina's portfolio",
           },
         },
       ],
@@ -239,5 +239,14 @@
     document.body.appendChild(notepad);
   }
 </script>
+<script>
+  // Check screen width and log if the warning is visible
+  if (window.innerWidth <= 768) {
+    console.log('Mobile warning should be visible.');
+  } else {
+    console.log('Mobile warning is hidden on larger screens.');
+  }
+</script>
 </body>
 </html>
+
