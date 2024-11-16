@@ -79,7 +79,6 @@
       background-color: #2e2e2e;
       color: #fff;
       padding: 5px;
-      cursor: move;
       font-size: 14px;
     }
     .close-btn {
@@ -105,7 +104,24 @@
     <div class="panel">
       <div class="panel-header">Projekty</div>
       <div class="panel-content">
-        <!-- Folder structure and content remains unchanged -->
+        <div class="folder" onclick="toggleFolder('folder1')">📁 [Hozier cover remix]</div>
+        <div id="folder1" class="folder-content">
+          <a href="javascript:void(0);" onclick="openWebamp('hozier_rmx_final.mp3', 'Hozier Remix')">Hozier_rmx_final.mp3</a>
+          <a href="javascript:void(0);" onclick="openNotepad('A remix project inspired by Hozier’s music, combining piano and modern beats.')">📄 README.txt</a>
+        </div>
+
+        <div class="folder" onclick="toggleFolder('folder2')">📁 [School project]</div>
+        <div id="folder2" class="folder-content">
+          <a href="javascript:void(0);" onclick="openWebamp('piano_plain.mp3', 'Before')">Before.mp3</a>
+          <a href="javascript:void(0);" onclick="openWebamp('piano_upravene.mp3', 'After')">After.mp3</a>
+          <a href="javascript:void(0);" onclick="openNotepad('A school project exploring audio transformations from “Before” to “After.”')">📄 README.txt</a>
+        </div>
+
+        <div class="folder" onclick="toggleFolder('folder3')">📁 [Tlixer jingel]</div>
+        <div id="folder3" class="folder-content">
+          <a href="javascript:void(0);" onclick="openWebamp('tlixer_jingel.wav', 'Tlixer Jingle')">Tlixer_final.mp3</a>
+          <a href="javascript:void(0);" onclick="openNotepad('A jingle created for the Tlixer project, blending dynamic melodies and catchy tunes.')">📄 README.txt</a>
+        </div>
       </div>
     </div>
     <div class="panel">
@@ -126,6 +142,11 @@
   </div>
 
 <script>
+  function toggleFolder(folderId) {
+    const folder = document.getElementById(folderId);
+    folder.style.display = (folder.style.display === "block") ? "none" : "block";
+  }
+
   function openNotepad(content) {
     const notepad = document.createElement('div');
     notepad.className = 'notepad-window';
@@ -134,7 +155,7 @@
         Notepad
         <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
       </div>
-      <div class="notepad-content" style="padding: 10px;">${content}</div>
+      <div style="padding: 10px;">${content}</div>
     `;
     document.body.appendChild(notepad);
   }
@@ -148,62 +169,65 @@
         <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
       </div>
       <canvas id="snakeCanvas" width="300" height="300"></canvas>
-      <script>
-        const canvas = document.getElementById('snakeCanvas');
-        const ctx = canvas.getContext('2d');
-        const box = 10;
-        let snake = [{ x: 15 * box, y: 15 * box }];
-        let food = {
+    `;
+    document.body.appendChild(snakeWindow);
+
+    const canvas = document.getElementById('snakeCanvas');
+    const ctx = canvas.getContext('2d');
+    const box = 10;
+    let snake = [{ x: 15 * box, y: 15 * box }];
+    let food = {
+      x: Math.floor(Math.random() * 30) * box,
+      y: Math.floor(Math.random() * 30) * box,
+    };
+    let direction = 'RIGHT';
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
+      if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
+      if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
+      if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
+    });
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < snake.length; i++) {
+        ctx.fillStyle = i === 0 ? '#fff' : '#0f0';
+        ctx.fillRect(snake[i].x, snake[i].y, box, box);
+      }
+      ctx.fillStyle = '#f00';
+      ctx.fillRect(food.x, food.y, box, box);
+
+      let snakeX = snake[0].x;
+      let snakeY = snake[0].y;
+
+      if (direction === 'UP') snakeY -= box;
+      if (direction === 'DOWN') snakeY += box;
+      if (direction === 'LEFT') snakeX -= box;
+      if (direction === 'RIGHT') snakeX += box;
+
+      if (snakeX === food.x && snakeY === food.y) {
+        food = {
           x: Math.floor(Math.random() * 30) * box,
           y: Math.floor(Math.random() * 30) * box,
         };
-        let direction = 'RIGHT';
-        document.addEventListener('keydown', event => {
-          if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
-          if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
-          if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
-          if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
-        });
+      } else {
+        snake.pop();
+      }
 
-        function draw() {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          for (let i = 0; i < snake.length; i++) {
-            ctx.fillStyle = i === 0 ? '#fff' : '#0f0';
-            ctx.fillRect(snake[i].x, snake[i].y, box, box);
-          }
-          ctx.fillStyle = '#f00';
-          ctx.fillRect(food.x, food.y, box, box);
-          let snakeX = snake[0].x;
-          let snakeY = snake[0].y;
-          if (direction === 'UP') snakeY -= box;
-          if (direction === 'DOWN') snakeY += box;
-          if (direction === 'LEFT') snakeX -= box;
-          if (direction === 'RIGHT') snakeX += box;
-          if (snakeX === food.x && snakeY === food.y) {
-            food = {
-              x: Math.floor(Math.random() * (canvas.width / box)) * box,
-              y: Math.floor(Math.random() * (canvas.height / box)) * box,
-            };
-          } else {
-            snake.pop();
-          }
-          let newHead = { x: snakeX, y: snakeY };
-          snake.unshift(newHead);
-          if (
-            snakeX < 0 ||
-            snakeY < 0 ||
-            snakeX >= canvas.width ||
-            snakeY >= canvas.height ||
-            snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
-          ) {
-            clearInterval(game);
-            alert('Game Over');
-          }
-        }
-        const game = setInterval(draw, 100);
-      </script>
-    `;
-    document.body.appendChild(snakeWindow);
+      const newHead = { x: snakeX, y: snakeY };
+      if (
+        snakeX < 0 || snakeY < 0 || 
+        snakeX >= canvas.width || snakeY >= canvas.height ||
+        snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
+      ) {
+        clearInterval(game);
+        alert('Game Over');
+      }
+      snake.unshift(newHead);
+    }
+
+    const game = setInterval(draw, 100);
   }
 </script>
 </body>
