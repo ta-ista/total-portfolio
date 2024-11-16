@@ -262,7 +262,6 @@
 </script>
   
   <script>
-  // Funkcia na otvorenie hry Snake v novom okne
 function openSnake() {
   const snakeGameWindow = window.open("", "Snake", "width=400,height=400");
 
@@ -348,15 +347,17 @@ function openSnake() {
             clearInterval(game);
             alert('Game Over');
           }
-          }
-          const game = setInterval(draw, 100);
-        </script>
-      </body>
-      </html>
-    `;
+        }
+        const game = setInterval(draw, 100);
+      </script>
+    </body>
+    </html>
+  `;
 
-    snakeGameWindow.document.open();
-    snakeGameWindow.document.write(snakeHTML);
-    snakeGameWindow.document.close();
-  }
+  // Vloženie HTML do otvoreného okna
+  snakeGameWindow.document.open();
+  snakeGameWindow.document.write(snakeHTML);
+  snakeGameWindow.document.close();
+}
+</script>
 </script>
