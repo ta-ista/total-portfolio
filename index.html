@@ -209,13 +209,7 @@
         <div id="folder2" class="folder-content">
           <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_plain.mp3', 'Before')">Before.mp3</a>
           <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/piano_upravene.mp3', 'After')">After.mp3</a>
-        <a href="javascript:void(0);" 
-   onclick="openNotepad(`A school project that was recorded during a lesson about microphones. 
-There were 4 groups that tried different miking techniques, even the "incorrect" ones. 
-You can compare my "Before" - raw audio how it was recorded - and the "After," which I cut, 
-adjusted panning, volume, and EQ-ed a little.`)"
-> 
-   📄 README.txt
+        <a href="javascript:void(0);" onclick="openNotepad(projectDescription)">📄 README.txt</a> 
 </a>
 </div>
         <!-- Folder 3 -->
@@ -229,8 +223,6 @@ adjusted panning, volume, and EQ-ed a little.`)"
           </a>
         </div>
       </div>
-    </div>
-    
     <div class="panel">
       <div class="panel-header">Other files</div>
       <div class="panel-content">
@@ -295,92 +287,101 @@ adjusted panning, volume, and EQ-ed a little.`)"
     app2.style.display = "none"; // Hide second player if not needed
   }
 
+  const projectDescription = `
+A school project that was recorded during a lesson about microphones.
+There were 4 groups that tried different miking techniques, even the "incorrect" ones.
+You can compare my "Before" - raw audio how it was recorded - and the "After," which I cut,
+adjusted panning, volume, and EQ-ed a little.
+    `;
+
   function openNotepad(content) {
     const notepad = document.createElement('div');
     notepad.className = 'notepad-window';
     notepad.innerHTML = `
-        <div class="notepad-header">
-            Notepad
-            <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
-        </div>
-        <div class="notepad-content">${content}</div>
+      <div class="notepad-header">
+        Notepad
+        <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
+      </div>
+      <div class="notepad-content">${content}</div>
     `;
     document.body.appendChild(notepad);
-}
-</script>
-  <script>
-  function openSnakeWindow() {
-  const snakeWindow = document.createElement('div');
-  snakeWindow.className = 'snake-window';
-  snakeWindow.innerHTML = `
-    <div class="snake-header">
-      Snake Game
-      <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
-    </div>
-  <canvas id="snakeCanvas" width="300" height="300" style="margin: 10px auto; display: block; background-color: #000;"></canvas>
-  `;
-  document.body.appendChild(snakeWindow);
-
-  const canvas = snakeWindow.querySelector('#snakeCanvas');
-  const ctx = canvas.getContext('2d');
-  const box = 10;
-  let snake = [{ x: 5 * box, y: 5 * box }];
-    let food = {
-  x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
-  y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
-};
-  let direction = 'RIGHT';
-
-  document.addEventListener('keydown', event => {
-    if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
-    if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
-    if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
-    if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
-  });
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let i = 0; i < snake.length; i++) {
-      ctx.fillStyle = i === 0 ? '#fff' : '#0f0';
-      ctx.fillRect(snake[i].x, snake[i].y, box, box);
-    }
-    ctx.fillStyle = '#f00';
-    ctx.fillRect(food.x, food.y, box, box);
-
-    let snakeX = snake[0].x;
-    let snakeY = snake[0].y;
-
-    if (direction === 'UP') snakeY -= box;
-    if (direction === 'DOWN') snakeY += box;
-    if (direction === 'LEFT') snakeX -= box;
-    if (direction === 'RIGHT') snakeX += box;
-
-  if (snakeX === food.x && snakeY === food.y) {
-  food = {
-    x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
-    y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
-  };
-} else {
-  snake.pop();
-}
-
-    let newHead = { x: snakeX, y: snakeY };
-    snake.unshift(newHead);
-
-    if (
-      snakeX < 0 ||
-      snakeY < 0 ||
-      snakeX >= canvas.width ||
-      snakeY >= canvas.height ||
-      snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
-    ) {
-      clearInterval(game);
-      alert('Game Over');
-    }
   }
+</script>
 
-  const game = setInterval(draw, 100);
-}
+<script>
+  function openSnakeWindow() {
+    const snakeWindow = document.createElement('div');
+    snakeWindow.className = 'snake-window';
+    snakeWindow.innerHTML = `
+      <div class="snake-header">
+        Snake Game
+        <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
+      </div>
+      <canvas id="snakeCanvas" width="300" height="300" style="margin: 10px auto; display: block; background-color: #000;"></canvas>
+    `;
+    document.body.appendChild(snakeWindow);
+
+    const canvas = snakeWindow.querySelector('#snakeCanvas');
+    const ctx = canvas.getContext('2d');
+    const box = 10;
+    let snake = [{ x: 5 * box, y: 5 * box }];
+    let food = {
+      x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
+      y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
+    };
+    let direction = 'RIGHT';
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
+      if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
+      if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
+      if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
+    });
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < snake.length; i++) {
+        ctx.fillStyle = i === 0 ? '#fff' : '#0f0';
+        ctx.fillRect(snake[i].x, snake[i].y, box, box);
+      }
+      ctx.fillStyle = '#f00';
+      ctx.fillRect(food.x, food.y, box, box);
+
+      let snakeX = snake[0].x;
+      let snakeY = snake[0].y;
+
+      if (direction === 'UP') snakeY -= box;
+      if (direction === 'DOWN') snakeY += box;
+      if (direction === 'LEFT') snakeX -= box;
+      if (direction === 'RIGHT') snakeX += box;
+
+      if (snakeX === food.x && snakeY === food.y) {
+        food = {
+          x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
+          y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
+        };
+      } else {
+        snake.pop();
+      }
+
+      let newHead = { x: snakeX, y: snakeY };
+      snake.unshift(newHead);
+
+      if (
+        snakeX < 0 ||
+        snakeY < 0 ||
+        snakeX >= canvas.width ||
+        snakeY >= canvas.height ||
+        snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
+      ) {
+        clearInterval(game);
+        alert('Game Over');
+      }
+    }
+
+    const game = setInterval(draw, 100);
+  }
 </script>
 </body>
 </html>
+
