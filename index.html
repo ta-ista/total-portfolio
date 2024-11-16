@@ -157,17 +157,19 @@
       font-size: 12px;
       box-sizing: border-box;
     }
-     .webamp-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    background-color: #000;
-    padding: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-    border-radius: 5px;
-  }
+    
+    #webamp-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background-color: #000;
+  padding: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  display: none; /* Hidden by default */
+}
   </style>
   <script src="https://unpkg.com/webamp"></script>
 </head>
