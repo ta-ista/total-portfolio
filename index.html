@@ -158,29 +158,24 @@
       box-sizing: border-box;
     }
     
-    #webamp-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1000;
-  background-color: #000;
-  padding: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-  border-radius: 5px;
-  display: none;
-}
-
-#webamp-container button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #444;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-}
+     #app1, #app2 {
+      display: none; /* Hide Webamp players initially */
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000; /* Ensure it appears on top */
+    }
+    .audio-file::before {
+      content: "";
+      display: inline-block;
+      width: 16px; /* Nastavte veľkosť ikony */
+      height: 16px;
+      background-image: url('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/winamp_icon.png'); /* Cesta k vašej ikone */
+      background-size: contain; /* Zabezpečí správne zobrazenie ikony */
+      vertical-align: middle; /* Zarovná ikonu so súborom */
+      margin-right: 5px; /* Odstup medzi ikonou a názvom súboru */
+      }
 
 #webamp-container button:hover {
   background: #666;
@@ -250,41 +245,43 @@
       textArea.focus();
     }
 
-let currentWebamp = null;
+<!-- Two Webamp players -->
+  <div id="app1"></div>
+  <div id="app2"></div>
+
+<script src="https://unpkg.com/webamp"></script>
+<script>
+  let currentWebamp1 = null;
+  let currentWebamp2 = null;
 
 function openWebamp(url, title) {
-  const webampContainer = document.getElementById('webamp-container');
-  webampContainer.style.display = 'block';
+    const app1 = document.getElementById("app1");
+    const app2 = document.getElementById("app2");
 
-  if (currentWebamp) {
-    currentWebamp.dispose();
-    webampContainer.innerHTML = '';
-  }
+    // Reset Webamp players if opening a single file
+    if (currentWebamp1) currentWebamp1.dispose();
+    if (currentWebamp2) currentWebamp2.dispose();
+    currentWebamp1 = currentWebamp2 = null;
 
-  currentWebamp = new Webamp({
-    initialTracks: [
-      {
-        url: url,
-        metaData: {
-          title: title,
-          artist: "Kristina's Portfolio",
+    // Show the Webamp player
+    app1.style.display = "block";
+
+    // Play the file
+    currentWebamp1 = new Webamp({
+      initialTracks: [
+        {
+          url: url,
+          metaData: {
+            title: title,
+            artist: "Kristina's portfolio",
+          },
         },
-      },
-    ],
-    appendTo: webampContainer,
-  });
+      ],
+    });
 
-  currentWebamp.renderWhenReady(webampContainer);
-}
-
-function closeWebamp() {
-  const webampContainer = document.getElementById('webamp-container');
-  if (currentWebamp) {
-    currentWebamp.dispose();
-    currentWebamp = null;
+    currentWebamp1.renderWhenReady(app1);
+    app2.style.display = "none"; // Hide second player if not needed
   }
-  webampContainer.style.display = 'none';
-}
 
 
     function openSnake() {
