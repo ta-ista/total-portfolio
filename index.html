@@ -306,9 +306,10 @@
   const box = 10;
   let snake = [{ x: 5 * box, y: 5 * box }];
   let food = {
-    x: Math.floor(Math.random() * (canvas.width / box)) * box,
-    y: Math.floor(Math.random() * (canvas.height / box)) * box,
-  };
+    let food = {
+  x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
+  y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
+};
   let direction = 'RIGHT';
 
   document.addEventListener('keydown', event => {
@@ -335,14 +336,14 @@
     if (direction === 'LEFT') snakeX -= box;
     if (direction === 'RIGHT') snakeX += box;
 
-    if (snakeX === food.x && snakeY === food.y) {
-      food = {
-        x: Math.floor(Math.random() * (canvas.width / box)) * box,
-        y: Math.floor(Math.random() * (canvas.height / box)) * box,
-      };
-    } else {
-      snake.pop();
-    }
+  if (snakeX === food.x && snakeY === food.y) {
+  food = {
+    x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
+    y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
+  };
+} else {
+  snake.pop();
+}
 
     let newHead = { x: snakeX, y: snakeY };
     snake.unshift(newHead);
