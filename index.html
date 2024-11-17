@@ -331,6 +331,7 @@
       window.webampInstance.renderWhenReady(webampContainer);
     }
 
+<script>
   function openSnakeWindow() {
     const snakeWindow = document.createElement('div');
     snakeWindow.className = 'snake-window';
@@ -340,94 +341,129 @@
         <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
       </div>
       <canvas id="snakeCanvas" width="300" height="300" style="margin: 10px auto; display: block; background-color: #000;"></canvas>
-      <div class="snake-controls" style="text-align: center; margin-top: 10px;">
-        <button class="control-button" id="up" style="display: block; margin: 5px auto;">▲</button>
-        <div class="horizontal-buttons" style="display: flex; justify-content: center; gap: 10px;">
-          <button class="control-button" id="left">◀</button>
-          <button class="control-button" id="right">▶</button>
+      <div id="controls" class="snake-controls">
+        <button id="up">▲</button>
+        <div>
+          <button id="left">◀</button>
+          <button id="right">▶</button>
         </div>
-        <button class="control-button" id="down" style="display: block; margin: 5px auto;">▼</button>
+        <button id="down">▼</button>
       </div>
     `;
     document.body.appendChild(snakeWindow);
 
+    // Štýly pre tlačidlá
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .snake-controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+      }
+      .snake-controls button {
+        background-color: #000080;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        margin: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      .snake-controls button:active {
+        background-color: #0000ff;
+      }
+      .snake-controls div {
+        display: flex;
+        justify-content: center;
+      }
+    `;
+    document.head.appendChild(style);
+
     const canvas = snakeWindow.querySelector('#snakeCanvas');
     const ctx = canvas.getContext('2d');
     const box = 10;
+
     let snake = [{ x: 5 * box, y: 5 * box }];
     let food = {
-        x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
-        y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
+      x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
+      y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
     };
     let direction = 'RIGHT';
 
-    // Ovládanie klávesnicou
     document.addEventListener('keydown', event => {
-        if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
-        if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
-        if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
-        if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
+      if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
+      if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
+      if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
+      if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
     });
 
     // Ovládanie tlačidlami
     document.getElementById('up').addEventListener('click', () => {
-        if (direction !== 'DOWN') direction = 'UP';
+      if (direction !== 'DOWN') direction = 'UP';
     });
     document.getElementById('down').addEventListener('click', () => {
-        if (direction !== 'UP') direction = 'DOWN';
+      if (direction !== 'UP') direction = 'DOWN';
     });
     document.getElementById('left').addEventListener('click', () => {
-        if (direction !== 'RIGHT') direction = 'LEFT';
+      if (direction !== 'RIGHT') direction = 'LEFT';
     });
     document.getElementById('right').addEventListener('click', () => {
-        if (direction !== 'LEFT') direction = 'RIGHT';
+      if (direction !== 'LEFT') direction = 'RIGHT';
     });
 
     function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (let i = 0; i < snake.length; i++) {
-            ctx.fillStyle = i === 0 ? '#fff' : '#0f0';
-            ctx.fillRect(snake[i].x, snake[i].y, box, box);
-        }
-        ctx.fillStyle = '#f00';
-        ctx.fillRect(food.x, food.y, box, box);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        let snakeX = snake[0].x;
-        let snakeY = snake[0].y;
+      // Kreslenie hada
+      for (let i = 0; i < snake.length; i++) {
+        ctx.fillStyle = i === 0 ? '#fff' : '#0f0';
+        ctx.fillRect(snake[i].x, snake[i].y, box, box);
+      }
 
-        if (direction === 'UP') snakeY -= box;
-        if (direction === 'DOWN') snakeY += box;
-        if (direction === 'LEFT') snakeX -= box;
-        if (direction === 'RIGHT') snakeX += box;
+      // Kreslenie jedla
+      ctx.fillStyle = '#f00';
+      ctx.fillRect(food.x, food.y, box, box);
 
-        if (snakeX === food.x && snakeY === food.y) {
-            food = {
-                x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
-                y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
-            };
-        } else {
-            snake.pop();
-        }
+      let snakeX = snake[0].x;
+      let snakeY = snake[0].y;
 
-        let newHead = { x: snakeX, y: snakeY };
-        snake.unshift(newHead);
+      // Pohyb hada
+      if (direction === 'UP') snakeY -= box;
+      if (direction === 'DOWN') snakeY += box;
+      if (direction === 'LEFT') snakeX -= box;
+      if (direction === 'RIGHT') snakeX += box;
 
-        if (
-            snakeX < 0 ||
-            snakeY < 0 ||
-            snakeX >= canvas.width ||
-            snakeY >= canvas.height ||
-            snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
-        ) {
-            clearInterval(game);
-            alert('Game Over');
-        }
+      // Ak had zožerie jedlo
+      if (snakeX === food.x && snakeY === food.y) {
+        food = {
+          x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
+          y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
+        };
+      } else {
+        snake.pop();
+      }
+
+      let newHead = { x: snakeX, y: snakeY };
+      snake.unshift(newHead);
+
+      // Kontrola kolízií
+      if (
+        snakeX < 0 ||
+        snakeY < 0 ||
+        snakeX >= canvas.width ||
+        snakeY >= canvas.height ||
+        snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
+      ) {
+        clearInterval(game);
+        alert('Game Over');
+      }
     }
 
     const game = setInterval(draw, 100);
-}
-
-  </script>
+  }
+</script>
   
   <script>
   // Funkcia na detekciu mobilného zariadenia
