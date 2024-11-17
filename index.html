@@ -100,17 +100,13 @@
     }
 
     .notepad-content {
-      flex: 1;
-      padding: 10px;
-      overflow: auto;
-      white-space: pre-wrap;
-      resize: none;
-      border: none;
-      font-family: Consolas, monospace;
-      font-size: 14px;
-      line-height: 1.4; /* Zmenší medzery medzi riadkami */
+  display: block;
+  font-family: Consolas, monospace;
+  line-height: 1.4; /* Zabezpečí normálne medzery medzi riadkami */
+  margin: 0; /* Odstráni akékoľvek predvolené vonkajšie medzery */
+  padding: 10px; /* Pridá odsadenie vnútri bloku */
 }
-    
+   
 .notepad-content h3 {
   margin: 0; /* Zmenšuje medzery pred a za nadpisom */
   font-size: 16px; /* Prispôsobí veľkosť písma */
