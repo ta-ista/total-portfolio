@@ -322,13 +322,13 @@
         <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
       </div>
       <canvas id="snakeCanvas" width="300" height="300" style="margin: 10px auto; display: block; background-color: #000;"></canvas>
-      <div class="snake-controls">
-        <button class="control-button" id="up">▲</button>
-        <div class="horizontal-buttons">
+      <div class="snake-controls" style="text-align: center; margin-top: 10px;">
+        <button class="control-button" id="up" style="display: block; margin: 5px auto;">▲</button>
+        <div class="horizontal-buttons" style="display: flex; justify-content: center; gap: 10px;">
           <button class="control-button" id="left">◀</button>
           <button class="control-button" id="right">▶</button>
         </div>
-        <button class="control-button" id="down">▼</button>
+        <button class="control-button" id="down" style="display: block; margin: 5px auto;">▼</button>
       </div>
     `;
     document.body.appendChild(snakeWindow);
