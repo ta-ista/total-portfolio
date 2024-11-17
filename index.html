@@ -117,12 +117,13 @@
 }
     
     .notepad-content ul {
-  padding-left: 10px; /* Zachová odrážky */
-  margin: 0; /* Zmenšuje medzery pred a za zoznamom */
+  margin: 0; !important;
+  padding-left: 20px; /* Zanechá odsadenie pre odrážky */
 }
 
-.notepad-content li {
-  margin: 0; /* Zmenšuje medzery medzi jednotlivými položkami zoznamu */
+..notepad-content li {
+  margin: 0; !important;
+  padding: 0; !important;
 }
 
     .close-btn {
@@ -229,7 +230,7 @@
         <div class="folder" onclick="toggleFolder('folder3')">📁 [Tlixer jingel]</div>
         <div id="folder3" class="folder-content">
           <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://raw.githubusercontent.com/ta-ista/total-portfolio/main/tlixer_jingel.wav', 'Tlixer Jingle')">Tlixer_final.mp3</a>
-          <a href="javascript:void(0);" onclick="openNotepad('A jingle created for a student radio in Bratislava for the new program Tlixer. The request was to incorporate a sound of a mixer, because the new program was covering a bunch of topics.')">📄 README.txt</a>
+          <a href="javascript:void(0);" onclick="openNotepad('A jingle created for a student radio in Bratislava for the new program Tlixer. The request was to incorporate a sound of an actual mixer, because the new program was covering a bunch of various topics.')">📄 README.txt</a>
         </div>
       </div>
     </div>
