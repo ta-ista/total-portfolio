@@ -332,6 +332,15 @@
     }
 
 <script>
+  <script>
+  // Skontrolujeme zariadenie
+  function checkMobileDevice() {
+    if (/Mobi|Android/i.test(navigator.userAgent)) {
+      alert("Pre najlepší zážitok si stránku otvorte na počítači!");
+    }
+  }
+
+  // Funkcia na spustenie Snake hry
   function openSnakeWindow() {
     const snakeWindow = document.createElement('div');
     snakeWindow.className = 'snake-window';
@@ -435,7 +444,6 @@
       if (direction === 'LEFT') snakeX -= box;
       if (direction === 'RIGHT') snakeX += box;
 
-      // Ak had zožerie jedlo
       if (snakeX === food.x && snakeY === food.y) {
         food = {
           x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
@@ -448,7 +456,6 @@
       let newHead = { x: snakeX, y: snakeY };
       snake.unshift(newHead);
 
-      // Kontrola kolízií
       if (
         snakeX < 0 ||
         snakeY < 0 ||
@@ -463,26 +470,9 @@
 
     const game = setInterval(draw, 100);
   }
-</script>
-  
-  <script>
-  // Funkcia na detekciu mobilného zariadenia
-  function isMobileDevice() {
-    return /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/.test(navigator.userAgent);
-  }
 
-  // Ak je zariadenie mobilné, zobraz upozornenie
-  if (isMobileDevice()) {
-    const alertDiv = document.createElement('div');
-    alertDiv.className = 'mobile-alert';
-    alertDiv.innerText = 'Táto stránka funguje lepšie na počítači. Na mobile môžu niektoré funkcie chýbať.';
-    document.body.appendChild(alertDiv);
-
-    // Automaticky schová upozornenie po 10 sekundách
-    setTimeout(() => {
-      alertDiv.style.display = 'none';
-    }, 10000);
-  }
+  // Spustí upozornenie na mobilnom zariadení
+  checkMobileDevice();
 </script>
 
 </body>
