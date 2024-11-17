@@ -2,24 +2,6 @@
 <html lang="sk">
 <head>
   <meta charset="UTF-8">
-  <style>
-  .mobile-alert {
-    display: none; /* Skryté na počítačoch */
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #ffcc00;
-    color: #000;
-    padding: 10px 20px;
-    border: 2px solid #555;
-    border-radius: 5px;
-    font-size: 14px;
-    font-weight: bold;
-    z-index: 9999; /* Zabezpečí, že je nad všetkým ostatným */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  }
-</style>
   <title>Total portfolio: ta_ista</title>
   <style>
     body, html {
@@ -194,47 +176,7 @@
       vertical-align: middle; /* Zarovná ikonu so súborom */
       margin-right: 5px; /* Odstup medzi ikonou a názvom súboru */
       }
-    .snake-controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.horizontal-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-}
-
-.control-button {
-    width: 50px;
-    height: 50px;
-    font-size: 18px;
-    text-align: center;
-    background-color: #2e2e2e;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.control-button:active {
-    background-color: #555; /* Zmena farby pri stlačení */
-}
-  
-    @media (max-width: 768px) {
-    .snake-controls {
-        display: flex; /* Na mobilných zariadeniach budú viditeľné */
-    }
-}
-
-@media (min-width: 769px) {
-    .snake-controls {
-        display: none; /* Na desktopoch budú skryté */
-    }
-}
-
+    
   </style>
   <script src="https://unpkg.com/webamp"></script>
 </head>
@@ -281,15 +223,6 @@
   <div class="status-bar">Good sounds only</div>
   <div id="webamp-container" style="display: none;">
   <button onclick="closeWebamp()" style="position: absolute; top: 10px; right: 10px;">Close</button>
-    <div class="snake-controls">
-    <button id="up" class="control-button">↑</button>
-    <div class="horizontal-buttons">
-        <button id="left" class="control-button">←</button>
-        <button id="down" class="control-button">↓</button>
-        <button id="right" class="control-button">→</button>
-    </div>
-</div>
-
 </div>
 
   <!-- Skripty -->
@@ -331,149 +264,77 @@
       window.webampInstance.renderWhenReady(webampContainer);
     }
 
-<script>
-  <script>
-  // Skontrolujeme zariadenie
-  function checkMobileDevice() {
-    if (/Mobi|Android/i.test(navigator.userAgent)) {
-      alert("Pre najlepší zážitok si stránku otvorte na počítači!");
-    }
-  }
-
-  // Funkcia na spustenie Snake hry
-  function openSnakeWindow() {
-    const snakeWindow = document.createElement('div');
-    snakeWindow.className = 'snake-window';
-    snakeWindow.innerHTML = `
-      <div class="snake-header">
-        Snake Game
-        <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
-      </div>
-      <canvas id="snakeCanvas" width="300" height="300" style="margin: 10px auto; display: block; background-color: #000;"></canvas>
-      <div id="controls" class="snake-controls">
-        <button id="up">▲</button>
-        <div>
-          <button id="left">◀</button>
-          <button id="right">▶</button>
+    function openSnake() {
+      const snakeWindow = document.createElement('div');
+      snakeWindow.className = 'snake-window';
+      snakeWindow.innerHTML = `
+        <div class="snake-header">
+          Snake Game <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
         </div>
-        <button id="down">▼</button>
-      </div>
-    `;
-    document.body.appendChild(snakeWindow);
+        <canvas id="snakeCanvas" width="300" height="300" style="margin: auto; background-color: #000;"></canvas>
+      `;
+      document.body.appendChild(snakeWindow);
 
-    // Štýly pre tlačidlá
-    const style = document.createElement('style');
-    style.innerHTML = `
-      .snake-controls {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 10px;
-      }
-      .snake-controls button {
-        background-color: #000080;
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        margin: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 5px;
-      }
-      .snake-controls button:active {
-        background-color: #0000ff;
-      }
-      .snake-controls div {
-        display: flex;
-        justify-content: center;
-      }
-    `;
-    document.head.appendChild(style);
+      const canvas = snakeWindow.querySelector('#snakeCanvas');
+      const ctx = canvas.getContext('2d');
+      const box = 10;
+      let snake = [{ x: 5 * box, y: 5 * box }];
+      let food = {
+        x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
+        y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
+      };
+      let direction = 'RIGHT';
 
-    const canvas = snakeWindow.querySelector('#snakeCanvas');
-    const ctx = canvas.getContext('2d');
-    const box = 10;
+      document.addEventListener('keydown', event => {
+        if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
+        if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
+        if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
+        if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
+      });
 
-    let snake = [{ x: 5 * box, y: 5 * box }];
-    let food = {
-      x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
-      y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
-    };
-    let direction = 'RIGHT';
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < snake.length; i++) {
+          ctx.fillStyle = i === 0 ? '#fff' : '#0f0';
+          ctx.fillRect(snake[i].x, snake[i].y, box, box);
+        }
+        ctx.fillStyle = '#f00';
+        ctx.fillRect(food.x, food.y, box, box);
 
-    document.addEventListener('keydown', event => {
-      if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
-      if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
-      if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
-      if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
-    });
+        let snakeX = snake[0].x;
+        let snakeY = snake[0].y;
 
-    // Ovládanie tlačidlami
-    document.getElementById('up').addEventListener('click', () => {
-      if (direction !== 'DOWN') direction = 'UP';
-    });
-    document.getElementById('down').addEventListener('click', () => {
-      if (direction !== 'UP') direction = 'DOWN';
-    });
-    document.getElementById('left').addEventListener('click', () => {
-      if (direction !== 'RIGHT') direction = 'LEFT';
-    });
-    document.getElementById('right').addEventListener('click', () => {
-      if (direction !== 'LEFT') direction = 'RIGHT';
-    });
+        if (direction === 'UP') snakeY -= box;
+        if (direction === 'DOWN') snakeY += box;
+        if (direction === 'LEFT') snakeX -= box;
+        if (direction === 'RIGHT') snakeX += box;
 
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (snakeX === food.x && snakeY === food.y) {
+          food = {
+            x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
+            y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
+          };
+        } else {
+          snake.pop();
+        }
 
-      // Kreslenie hada
-      for (let i = 0; i < snake.length; i++) {
-        ctx.fillStyle = i === 0 ? '#fff' : '#0f0';
-        ctx.fillRect(snake[i].x, snake[i].y, box, box);
+        let newHead = { x: snakeX, y: snakeY };
+        snake.unshift(newHead);
+
+        if (
+          snakeX < 0 ||
+          snakeY < 0 ||
+          snakeX >= canvas.width ||
+          snakeY >= canvas.height ||
+          snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
+        ) {
+          clearInterval(game);
+          alert('Game Over');
+        }
       }
 
-      // Kreslenie jedla
-      ctx.fillStyle = '#f00';
-      ctx.fillRect(food.x, food.y, box, box);
-
-      let snakeX = snake[0].x;
-      let snakeY = snake[0].y;
-
-      // Pohyb hada
-      if (direction === 'UP') snakeY -= box;
-      if (direction === 'DOWN') snakeY += box;
-      if (direction === 'LEFT') snakeX -= box;
-      if (direction === 'RIGHT') snakeX += box;
-
-      if (snakeX === food.x && snakeY === food.y) {
-        food = {
-          x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
-          y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
-        };
-      } else {
-        snake.pop();
-      }
-
-      let newHead = { x: snakeX, y: snakeY };
-      snake.unshift(newHead);
-
-      if (
-        snakeX < 0 ||
-        snakeY < 0 ||
-        snakeX >= canvas.width ||
-        snakeY >= canvas.height ||
-        snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
-      ) {
-        clearInterval(game);
-        alert('Game Over');
-      }
+      const game = setInterval(draw, 100);
     }
-
-    const game = setInterval(draw, 100);
-  }
-
-  // Spustí upozornenie na mobilnom zariadení
-  checkMobileDevice();
-</script>
-
+  </script>
 </body>
 </html>
