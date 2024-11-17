@@ -2,6 +2,24 @@
 <html lang="sk">
 <head>
   <meta charset="UTF-8">
+  <style>
+  .mobile-alert {
+    display: none; /* Skryté na počítačoch */
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffcc00;
+    color: #000;
+    padding: 10px 20px;
+    border: 2px solid #555;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 9999; /* Zabezpečí, že je nad všetkým ostatným */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+</style>
   <title>Total portfolio: ta_ista</title>
   <style>
     body, html {
@@ -410,5 +428,26 @@
 }
 
   </script>
+  
+  <script>
+  // Funkcia na detekciu mobilného zariadenia
+  function isMobileDevice() {
+    return /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/.test(navigator.userAgent);
+  }
+
+  // Ak je zariadenie mobilné, zobraz upozornenie
+  if (isMobileDevice()) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'mobile-alert';
+    alertDiv.innerText = 'Táto stránka funguje lepšie na počítači. Na mobile môžu niektoré funkcie chýbať.';
+    document.body.appendChild(alertDiv);
+
+    // Automaticky schová upozornenie po 10 sekundách
+    setTimeout(() => {
+      alertDiv.style.display = 'none';
+    }, 10000);
+  }
+</script>
+
 </body>
 </html>
