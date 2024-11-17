@@ -77,7 +77,7 @@
     .notepad-window {
       position: fixed;
       width: 400px;
-      height: 300px;
+      height: 400px;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -109,15 +109,19 @@
       font-family: Consolas, monospace;
       font-size: 14px;
     }
+.notepad-content h3 {
+  margin: 5px 0; /* Zmenšuje medzery pred a za nadpisom */
+  font-size: 16px; /* Prispôsobí veľkosť písma */
+}
     
     .notepad-content ul {
-  margin: 0;
-  padding-left: 5px; /* Odskok pre odrážky */
+  padding-left: 10px; /* Zachová odrážky */
+  margin: 2px 0; /* Zmenšuje medzery pred a za zoznamom */
 }
 
 .notepad-content li {
-  margin-bottom: 2px; /* Menšia medzera medzi odrážkami */
-  line-height: 1; /* Menšia výška riadku */
+  margin: 2px 0; /* Zmenšuje medzery medzi jednotlivými položkami zoznamu */
+  line-height: 1.2; /* Nastavuje menší riadkový odstup */
 }
 
     .close-btn {
