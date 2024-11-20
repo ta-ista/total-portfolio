@@ -4,6 +4,52 @@
   <meta charset="UTF-8">
   <title>Total portfolio: ta_ista</title>
   <style>
+.tc-alert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    max-width: 90%;
+    border: 2px solid #000;
+    background-color: #C0C0C0;
+    font-family: "Consolas", monospace;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+  }
+
+  .tc-header {
+    background-color: #000080;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  .tc-content {
+    padding: 15px;
+    color: #000;
+    text-align: center;
+  }
+
+  .tc-content p {
+    margin: 0 0 10px;
+  }
+
+  .tc-ok-button {
+    display: inline-block;
+    padding: 5px 20px;
+    border: 1px solid #000;
+    background-color: #E0E0E0;
+    font-family: "Consolas", monospace;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .tc-ok-button:hover {
+    background-color: #D0D0D0;
+  }
+    
     body, html {
       height: 100%;
       margin: 0;
@@ -204,6 +250,13 @@
   <script src="https://unpkg.com/webamp"></script>
 </head>
 <body>
+  <div id="tc-alert" class="tc-alert">
+  <div class="tc-header">Total Portfolio Warning</div>
+  <div class="tc-content">
+    <p>This website is best viewed on a PC for the full experience.</p>
+    <button onclick="closeAlert()" class="tc-ok-button">OK</button>
+  </div>
+  </div>
   <div class="header">Total Portfolio: ta_ista</div>
   <div class="main">
     <!-- Ľavý panel -->
@@ -374,5 +427,15 @@
       const game = setInterval(draw, 100);
     }
   </script>
+
+  <script>
+  function closeAlert() {
+    const alert = document.getElementById('tc-alert');
+    if (alert) {
+      alert.style.display = 'none';
+    }
+  }
+  </script>
+  
 </body>
 </html>
