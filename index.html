@@ -67,20 +67,23 @@
     }
 
     .main {
-  display: flex !important;
-  flex-wrap: nowrap !important;
-  justify-content: space-between !important;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
   align-items: stretch;
-  height: calc(100vh - 80px); /* Upraviť podľa výšky headeru a status baru */
+  height: calc(100vh - 80px); /* Header + Status bar výška */
+  gap: 10px; /* Odstup medzi panelmi */
 }
 
-    .panel {
-  flex: 1 !important;
-  margin: 10px !important;
+.panel {
+  flex: 1;
+  margin: 0; /* Zrušiť vonkajšie okraje */
   background-color: #C0C0C0;
   border: 1px solid #555;
   display: flex;
   flex-direction: column;
+  height: 100%; /* Zabezpečí výšku v rámci rodiča */
+  overflow: hidden; /* Zabraňuje pretečeniu obsahu */
 }
 
     .panel-header {
@@ -105,10 +108,13 @@
       margin-bottom: 10px;
     }
 
-    .folder-content {
-      display: none;
-      margin-left: 20px;
-    }
+   .folder-content {
+  display: none;
+}
+
+.folder.open + .folder-content {
+  display: block;
+}
 
     a {
       color: #000;;
@@ -160,12 +166,12 @@
 }
     
     .notepad-content ul {
-  margin: 0; !important;
+  margin: 5px 0; !important;
   padding-left: 20px; /* Zanechá odsadenie pre odrážky */
 }
 
 .notepad-content li {
-  margin: 0; !important;
+  margin: 3px 0; !important;
   padding: 0; !important;
 }
 
