@@ -67,13 +67,15 @@
     }
 
     .main {
-      display: flex;
+      display: flex !important;
       height: calc(100vh - 50px - 30px); /* Výška bez headeru a status baru */
+      flex-wrap: nowrap !important;
+    justify-content: space-between !important;
     }
 
     .panel {
-      flex: 1;
-      margin: 10px;
+      flex: 1 !important;
+      margin: 10px !important;
       background-color: #C0C0C0; /* Tmavosivá */
       color: #fff;
       border: 1px solid #555;
@@ -257,12 +259,14 @@
     <button onclick="closeAlert()" class="tc-ok-button">OK</button>
   </div>
   </div>
+  
   <div class="header">Total Portfolio: ta_ista</div>
   <div class="main">
     <!-- Ľavý panel -->
     <div class="panel">
       <div class="panel-header">Projects</div>
       <div class="panel-content">
+        
         <div class="folder" onclick="toggleFolder('folder1')">📁 [Hozier cover remix]</div>
         <div id="folder1" class="folder-content">
           <a href="javascript:void(0);" class="audio-file" onclick="openWebamp('https://ta-ista.github.io/total-portfolio/hozier_rmx final.mp3', 'Hozier Remix')">Hozier_rmx final.mp3</a>
