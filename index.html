@@ -399,8 +399,8 @@
       const box = 10;
       let snake = [{ x: 5 * box, y: 5 * box }];
       let food = {
-        x: Math.floor(Math.random() * ((canvas.width / box) - 1)) * box,
-        y: Math.floor(Math.random() * ((canvas.height / box) - 1)) * box,
+        x: Math.floor(Math.random() * (canvas.width / box - 2) + 1) * box,
+        y: Math.floor(Math.random() * (canvas.height / box - 2) + 1) * box,
       };
       let direction = 'RIGHT';
 
