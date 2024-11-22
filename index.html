@@ -397,6 +397,7 @@
       const canvas = snakeWindow.querySelector('#snakeCanvas');
       const ctx = canvas.getContext('2d');
       const box = 10;
+      let score = 0;
       let snake = [{ x: 5 * box, y: 5 * box }];
       let food = {
         x: Math.floor(Math.random() * (canvas.width / box - 2) + 1) * box,
@@ -448,8 +449,8 @@
           snake.some((segment, index) => index !== 0 && segment.x === snakeX && segment.y === snakeY)
         ) {
           clearInterval(game);
-          alert('Game Over');
-        }
+          alert(`Game Over! Your score: ${score}`); // Zobrazí hlášku so skóre
+}
       }
 
       const game = setInterval(draw, 100);
