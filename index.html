@@ -133,6 +133,11 @@
       text-decoration: underline;
     }
 
+.notepad-large {
+  width: 600px; /* Väčšia šírka */
+  height: 500px; /* Väčšia výška */
+}
+    
     .notepad-window {
   position: fixed;
   width: 600px; /* Zväčšená šírka */
@@ -308,7 +313,7 @@
         <div id="folder4" class="folder-content">
           <a href="javascript:void(0);" onclick="openNotepad('Writing is my passion, so here you can find different articles I wrote. I love covering art topics, mostly in Slovak, since it is my native language. For posts or stories in English, check out my Instagram.')">📄 README.txt</a>
            <a href="https://ta-ista.github.io/total-portfolio/Recenzia_vystavy.pdf" download="Recenzia_vystavy.pdf">📄 Recenzia výstavy</a>
-  <a href="javascript:void(0);" onclick="loadHtmlIntoNotepad('https://ta-ista.github.io/total-portfolio/panoptikum.html')">📄 Reportáž z koncertu kapely Panoptikum</a>
+  <a href="javascript:void(0);" onclick="loadHtmlIntoNotepad('https://ta-ista.github.io/total-portfolio/panoptikum.html',true)">📄 Reportáž z koncertu kapely Panoptikum</a>
 </div>
 </div>
 </div>
@@ -356,10 +361,12 @@
       folder.style.display = folder.style.display === "block" ? "none" : "block";
     }
 
-  function openNotepad(content) {
+function openNotepad(content, isLarge = false) {
   const notepad = document.createElement('div');
   notepad.className = 'notepad-window';
-
+  if (isLarge) {
+    notepad.classList.add('notepad-large'); // Pridá triedu pre väčší notepad
+  }
   notepad.innerHTML = `
     <div class="notepad-header">
       Notepad
@@ -369,9 +376,9 @@
       ${content}
     </div>
   `;
-
   document.body.appendChild(notepad);
 }
+
 
     function openWebamp(url, title) {
       if (window.webampInstance) {
@@ -474,25 +481,7 @@
     }
   }
     </script>
- 
-    <script>
-  function loadHtmlIntoNotepad(filePath) {
-  fetch(filePath)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.text();
-    })
-    .then(htmlContent => {
-      openNotepad(htmlContent);
-    })
-    .catch(error => {
-      console.error('Error loading HTML:', error);
-      alert('Could not load the HTML file.');
-    });
-}
-</script>
+
 
 </body>
 </html>
