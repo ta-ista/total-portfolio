@@ -134,36 +134,40 @@
     }
 
     .notepad-window {
-      position: fixed;
-      width: 400px;
-      height: 400px;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #fff;
-      color: #000;
-      border: 2px solid #000;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-    }
+  position: fixed;
+  width: 600px; /* Zväčšená šírka */
+  height: 500px; /* Zväčšená výška */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  color: #000;
+  border: 2px solid #000;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Skryje pretečený obsah mimo rámca */
+}
 
-    .notepad-header {
-      background-color: #444;
-      color: #fff;
-      padding: 5px;
-      cursor: move;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .notepad-content {
-  display: block;
+.notepad-content {
+  flex: 1;
+  overflow-y: auto; /* Umožní posúvanie obsahu vo vertikálnom smere */
+  padding: 10px;
   font-family: Consolas, monospace;
-  line-height: 1.4; /* Zabezpečí normálne medzery medzi riadkami */
-  margin: 0; /* Odstráni akékoľvek predvolené vonkajšie medzery */
-  padding: 10px; /* Pridá odsadenie vnútri bloku */
+  line-height: 1.5;
+  color: #000;
+  background-color: #f5f5f5;
+  border-top: 1px solid #ccc;
+}
+
+.notepad-header {
+  background-color: #444;
+  color: #fff;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
 }
    
 .notepad-content h3 {
@@ -352,16 +356,20 @@
       folder.style.display = folder.style.display === "block" ? "none" : "block";
     }
 
-    function openNotepad(content) {
+  function openNotepad(content) {
   const notepad = document.createElement('div');
   notepad.className = 'notepad-window';
+
   notepad.innerHTML = `
-      <div class="notepad-header">
-        Notepad
-        <span class="close-btn" onclick="this.parentElement.parentElement.remove()">x</span>
-      </div>
-      <div class="notepad-content">${content}</div>
+    <div class="notepad-header">
+      Notepad
+      <span class="close-btn" onclick="this.parentElement.parentElement.remove()">×</span>
+    </div>
+    <div class="notepad-content">
+      ${content}
+    </div>
   `;
+
   document.body.appendChild(notepad);
 }
 
