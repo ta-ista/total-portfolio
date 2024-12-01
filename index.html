@@ -107,23 +107,26 @@
       overflow-y: auto;
     }
 
-    .folder {
+ .folder {
       cursor: pointer;
       color: #0a0a0a;
       font-weight: bold;
       margin-bottom: 10px;
     }
-
-   .folder-content a {
-  display: block; /* Zabezpečí, že odkazy budú pod sebou */
-  margin-bottom: 5px; /* Voliteľne pridajte medzeru medzi položkami */
+    
+.folder-content {
+  display: none; /* Priečinky budú predvolene zatvorené */
 }
 
-    
 .folder.open + .folder-content {
   display: block;
 }
-
+    
+ .folder-content a {
+  display: block; /* Každý odkaz bude na novom riadku */
+  margin-bottom: 5px; /* Odstup medzi odkazmi */
+}
+    
     a {
       color: #000;;
       text-decoration: none;
