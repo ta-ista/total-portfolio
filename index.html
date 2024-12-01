@@ -482,7 +482,25 @@ function openNotepad(content, isLarge = false) {
     }
   }
     </script>
-
+  
+<script>
+  function loadHtmlIntoNotepad(filePath, isLarge = false) {
+  fetch(filePath)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.text();
+    })
+    .then(htmlContent => {
+      openNotepad(htmlContent, isLarge);
+    })
+    .catch(error => {
+      console.error('Error loading HTML:', error);
+      alert('Could not load the HTML file.');
+    });
+}
+</script>
 
 </body>
 </html>
