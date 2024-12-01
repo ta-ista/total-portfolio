@@ -168,11 +168,17 @@
 .notepad-header {
   background-color: #444;
   color: #fff;
-  padding: 10px;
-  font-size: 14px;
+  padding: 5px;
+  position: relative; /* Dôležité pre umiestnenie .close-btn */
+}
+
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px; /* Posun od pravého okraja */
+  cursor: pointer;
   font-weight: bold;
-  text-align: center;
-  position: relative;
+  color: #fff;
 }
    
 .notepad-content h3 {
@@ -190,11 +196,6 @@
   padding: 0; 
 }
 
-    .close-btn {
-      cursor: pointer;
-      color: #fff;
-      font-weight: bold;
-    }
 .snake-window {
       position: fixed;
       width: 400px;
