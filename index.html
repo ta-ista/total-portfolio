@@ -114,8 +114,8 @@
       margin-bottom: 10px;
     }
 
-   .folder-content a {
-  display: block;
+   .folder-content {
+  display: none;
 }
 
 .folder.open + .folder-content {
@@ -358,9 +358,18 @@
   <!-- Skripty -->
   <script>
     function toggleFolder(folderId) {
-      const folder = document.getElementById(folderId);
-      folder.style.display = folder.style.display === "block" ? "none" : "block";
-    }
+  const folder = document.getElementById(folderId);
+  const folderTrigger = document.querySelector(`[onclick="toggleFolder('${folderId}')"]`);
+  
+  if (folder.style.display === "block") {
+    folder.style.display = "none";
+    folderTrigger.classList.remove("open");
+  } else {
+    folder.style.display = "block";
+    folderTrigger.classList.add("open");
+  }
+}
+
 
 function openNotepad(content, isLarge = false) {
   const notepad = document.createElement('div');
